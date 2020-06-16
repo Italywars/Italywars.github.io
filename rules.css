@@ -24,7 +24,7 @@ header > h2 {
 
 #join-game {
     position: absolute;
-    color: white;
+    color: #5a4953;
     font-size: 15px;
     top: 10px;
     right: 200px;
@@ -32,7 +32,7 @@ header > h2 {
 
 #login {
     position: absolute;
-    color: white;
+    color: #5a4953;
     font-size: 15px;
     top: 10px;
     right: 100px;
@@ -40,7 +40,7 @@ header > h2 {
 
 #home {
     position: absolute;
-    color: white;
+    color: #5a4953;
     font-size: 15px;
     top: 10px;
     right: 340px;
@@ -58,25 +58,9 @@ header > h2 {
 
 .change-page:hover {
     cursor: pointer;
-    background: #5a4953;
+    background: white;
 }
 
 body {
     background:  #3a181a;
-}
-
-.about-the-game {
-    padding: 40px;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.623);
-}
-
-#about-header {
-    font-weight: bold;
-    font-size:  30px;
-}
-
-#blrb {
-    padding: 20px;
-    font-size: 20px;
 }
