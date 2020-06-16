@@ -2,15 +2,12 @@ function changePage(pageName) {
     switch (pageName) {
         case "join-game":
             location.href = "game.html";
-            console.log("Hey you want to join a game");
             break;
         case "login":
             location.href = "login.html";
-            console.log("Hey you want to login");
             break;
         case "rules":
             location.href = "rules.html";
-            console.log("Hey you want to see the rules")
             break;
     }
 }
