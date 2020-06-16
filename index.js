@@ -26,6 +26,9 @@ function changePage(pageName) {
         case "rules":
             location.href = "rules.html";
             break;
+        case "home":
+            location.href = "index.html";
+            break;
     }
 }
 
@@ -35,6 +38,7 @@ function main() {
     const joinGame_div = document.getElementById("join-game");
     const login_div = document.getElementById("login");
     const rules_div = document.getElementById("rules");
+    const home_div = document.getElementById("home");
 
     joinGame_div.addEventListener('click', function() {
         changePage("join-game");
@@ -47,6 +51,12 @@ function main() {
     rules_div.addEventListener('click', function() {
         changePage("rules");
     })
+
+    home_div.addEventListener('click', function() {
+        changePage("home");
+    })
+
+
 }
 
 main();
