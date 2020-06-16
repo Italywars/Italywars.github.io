@@ -18,7 +18,6 @@ function main() {
     const login_div = document.getElementById("login");
     const rules_div = document.getElementById("rules");
 
-
     joinGame_div.addEventListener('click', function() {
         changePage("join-game");
     })
