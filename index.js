@@ -40,23 +40,13 @@ function main() {
     const rules_div = document.getElementById("rules");
     const home_div = document.getElementById("home");
 
-    joinGame_div.addEventListener('click', function() {
-        changePage("join-game");
-    })
+    joinGame_div.addEventListener('click', () => changePage("join-game"));
+    login_div.addEventListener('click', () => changePage("login"));
+    rules_div.addEventListener('click', () => changePage("rules"));
+    home_div.addEventListener('click', () => changePage("home"));
 
-    login_div.addEventListener('click', function() {
-        changePage("login");    
-    })
-
-    rules_div.addEventListener('click', function() {
-        changePage("rules");
-    })
-
-    home_div.addEventListener('click', function() {
-        changePage("home");
-    })
-
-
+    // Just for fun. This isn't actually necessary.
+    return 0;
 }
 
 main();
