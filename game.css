@@ -8,18 +8,21 @@ header {
     background: goldenrod;
     padding: 40px;
     position: relative;
+    text-align: center;
 }
 
 header > h1 {
     color: #5a4953;
-    font-size: 40px;
-    text-align: center;
+    font-size: 40px;   
+}
+
+header > h1:hover {
+    cursor: pointer;
 }
 
 header > h2 {
     color: #5a4953;
     font-size: 25px;
-    text-align: center;
 }
 
 #home {
@@ -65,18 +68,21 @@ body {
     background:  #3a181a;
 }
 
-.about-the-game {
+#open-games {
     padding: 40px;
-    text-align: center;
     color: rgba(255, 255, 255, 0.623);
 }
 
-#about-header {
+#open-games > h2 {
     font-weight: bold;
-    font-size:  30px;
 }
 
-#blrb {
-    padding: 20px;
-    font-size: 20px;
+#open-games > ol {
+    padding: 10px;
+}
+
+#new-game {
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.623);
+    font-weight: bold;
 }
