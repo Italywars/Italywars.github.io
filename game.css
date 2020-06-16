@@ -5,38 +5,47 @@
 }
 
 header {
-    background: white;
+    background: goldenrod;
     padding: 40px;
     position: relative;
 }
 
 header > h1 {
-    color: black;
+    color: #5a4953;
     font-size: 40px;
     text-align: center;
 }
 
 header > h2 {
-    color: black;
+    color: #5a4953;
     font-size: 25px;
     text-align: center;
 }
 
+#home {
+    position: absolute;
+    color: #5a4953;
+    font-size: 15px;
+    top: 10px;
+    right: 200px;
+}
+
 #login {
     position: absolute;
-    color: black;
+    color: #5a4953;
     font-size: 15px;
     top: 10px;
     right: 100px;
 }
 
-#main-page {
+#rules {
     position: absolute;
-    color: black;
+    color: #5a4953;
     font-size: 15px;
     top: 10px;
-    right: 200px;
+    right: 300px;
 }
+
 
 .change-page {
     color: white;
@@ -49,9 +58,25 @@ header > h2 {
 
 .change-page:hover {
     cursor: pointer;
-    background: blue;
+    background: white;
 }
 
 body {
-    background: blueviolet;
+    background:  #3a181a;
+}
+
+.about-the-game {
+    padding: 40px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.623);
+}
+
+#about-header {
+    font-weight: bold;
+    font-size:  30px;
+}
+
+#blrb {
+    padding: 20px;
+    font-size: 20px;
 }
