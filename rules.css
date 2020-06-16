@@ -22,27 +22,22 @@ header > h2 {
     text-align: center;
 }
 
-#join-game {
+#join-game, #login, #home {
     position: absolute;
     color: #5a4953;
     font-size: 15px;
     top: 10px;
+}
+
+#join-game {
     right: 200px;
 }
 
 #login {
-    position: absolute;
-    color: #5a4953;
-    font-size: 15px;
-    top: 10px;
     right: 100px;
 }
 
 #home {
-    position: absolute;
-    color: #5a4953;
-    font-size: 15px;
-    top: 10px;
     right: 340px;
 }
 
