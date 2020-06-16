@@ -1,0 +1,72 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background: white;
+    padding: 40px;
+    position: relative;
+}
+
+header > h1 {
+    color: black;
+    font-size: 40px;
+    text-align: center;
+}
+
+header > h2 {
+    color: black;
+    font-size: 25px;
+    text-align: center;
+}
+
+#join-game {
+    position: absolute;
+    color: black;
+    font-size: 15px;
+    top: 10px;
+    right: 200px;
+    /**
+    Need to add the ability to hover over buttons etc.
+    Maybe add a box outline to other pages??
+    I need to learn more CSS!
+
+    */
+    
+}
+
+#main-page {
+    position: absolute;
+    color: black;
+    font-size: 15px;
+    top: 10px;
+    right: 100px;
+}
+
+.change-page {
+    color: white;
+    font-size: 14px;
+    padding: 2px 10px;
+    border: 3px solid black;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.change-page:hover {
+    cursor: pointer;
+    background: blue;
+}
+
+body {
+    background: blueviolet;
+}
+
+.form {
+    padding: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+}
