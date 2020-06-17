@@ -1,3 +1,14 @@
+TODO
+
+1. Login page
+2. Database for storing information
+3. Ability to play games
+
+
+
+
+
+
 Need a UI for allowing people to select one country and direct towards another!!
 
 Maybe can use buttons to characterize the type of line drawn?
