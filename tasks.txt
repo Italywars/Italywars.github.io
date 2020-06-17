@@ -1,0 +1,3 @@
+Need a UI for allowing people to select one country and direct towards another!!
+
+Maybe can use buttons to characterize the type of line drawn?
