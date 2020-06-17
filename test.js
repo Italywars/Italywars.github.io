@@ -6,7 +6,3 @@ console.log('Hello, World!');
  * Additionally, try to get a side view
  * demonstrating which boxes have been selected.
  */
-
-
-
- 
