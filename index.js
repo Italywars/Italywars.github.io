@@ -18,16 +18,16 @@
 function changePage(pageName) {
     switch (pageName) {
         case "join-game":
-            location.href = "game.html";
+            location.href = "pages/game/game.html";
             break;
         case "login":
-            location.href = "login.html";
+            location.href = "pages/login/login.html";
             break;
         case "rules":
-            location.href = "rules.html";
+            location.href = "pages/rules/rules.html";
             break;
         case "home":
-            location.href = "index.html";
+            location.href = "../../index.html";
             break;
     }
 }
