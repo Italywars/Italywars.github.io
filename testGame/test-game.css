@@ -59,12 +59,18 @@ body {
 }
 
 .game-board, td {
+    
     text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     border: 5px solid black;
     border-collapse: collapse;
+    padding: 15px;
+    background-color: #ffffff;
+
 }
 
 td {
     
-    color: white;
+    color: black;
 }
