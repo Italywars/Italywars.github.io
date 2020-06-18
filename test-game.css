@@ -1,0 +1,70 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background: goldenrod;
+    padding: 40px;
+    position: relative;
+    text-align: center;
+}
+
+header > h1 {
+    color: #5a4953;
+    font-size: 40px;
+}
+
+header > h1:hover {
+    cursor: pointer;
+}
+
+/* #join-game, #login, #rules {
+    position: absolute;
+    color: #5a4953;
+    font-size: 15px;
+    top: 10px;
+} */
+/* 
+#join-game {
+    right: 200px;
+}
+
+#login {
+    right: 100px;
+}
+
+#rules {
+    right: 340px;
+} */
+
+
+/* .change-page {
+    color: white;
+    font-size: 14px;
+    padding: 2px 10px;
+    border: 3px solid black;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.change-page:hover {
+    cursor: pointer;
+    background: white;
+} */
+
+body {
+    background:  #3a181a;
+}
+
+.game-board, td {
+    text-align: center;
+    border: 5px solid black;
+    border-collapse: collapse;
+}
+
+td {
+    
+    color: white;
+}
