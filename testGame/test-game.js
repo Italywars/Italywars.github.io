@@ -14,9 +14,9 @@
  * them.
  */
 
-const { JSDOM } = require( "jsdom" );
-const { window } = new JSDOM( "" );
-const $ = require( "jquery" )( window );
+//const { JSDOM } = require( "jsdom" );
+//const { window } = new JSDOM( "" );
+//const $ = require( "jquery" )( window );
 
 const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
@@ -26,6 +26,7 @@ $(document).ready(function(){
     $(document.getElementsByClassName("game-board")).hide();
 })
 
+/*
 function removeGlow(start) {
     document.getElementById(start).classList.remove('blue-highlight');
     console.log("remove glow called")
@@ -56,6 +57,7 @@ function closeCall() {
         console.log("closing call " + i);
     }
 }
+*/
 
 function main() {
     //openCall()
