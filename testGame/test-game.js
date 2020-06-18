@@ -37,3 +37,12 @@ function main() {
 }
 
 main();
+
+
+//Listen for selecting click on any country
+//Highlight country that has been clicked and selected
+//End listen for selecting click
+//Open listen for attacking click
+//Conditional: if country attacks itself, then deselect
+//              else deselect country and draw arrow
+//Begin listening for selecting click
