@@ -14,17 +14,21 @@
  * them.
  */
 
+const { JSDOM } = require( "jsdom" );
+const { window } = new JSDOM( "" );
+const $ = require( "jquery" )( window );
+
 const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
 console.log('Hello, World!');
 
+$(document).ready(function(){
+    $(document.getElementsByClassName("game-board")).hide();
+})
+
 function removeGlow(start) {
     document.getElementById(start).classList.remove('blue-highlight');
     console.log("remove glow called")
-}
-
-var attackListener = function() {
-    attack(nations[i]);
 }
 
 function attack(start) {
@@ -36,7 +40,6 @@ function attack(start) {
         console.log("attack called");
     }
 }
-
 
 function openCall() {
     for (let i = 0; i < nations.length; i++) {
@@ -55,7 +58,7 @@ function closeCall() {
 }
 
 function main() {
-    openCall()
+    //openCall()
     //closeCall()
 }
 
