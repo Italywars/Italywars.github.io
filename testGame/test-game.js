@@ -3,7 +3,18 @@
  * between different places on the grid.
  * Additionally, try to get a side view
  * demonstrating which boxes have been selected.
+ * 
+ * 
+ * 
+ * Select a square (it highlights)
+ * 
+ * Select a second square (that must be
+ * adjacent to the first square), it highlights 
+ * momentarily, and then an arrow is drawn between
+ * them.
  */
+
+const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
 console.log('Hello, World!');
 
@@ -19,30 +30,10 @@ function attack(start) {
 }
 
 function main() {
-
-    const genSquare_td = document.getElementById("gen");
-    const lucSquare_td = document.getElementById("luc");
-    const salSquare_td = document.getElementById("sal");
-
-    const milSquare_td = document.getElementById("mil");
-    const floSquare_td = document.getElementById("flo");
-    const romSquare_td = document.getElementById("rom");
-
-    const aviSquare_td = document.getElementById("avi");
-    const marSquare_td = document.getElementById("mar");
-    const golSquare_td = document.getElementById("gol");
-
-    genSquare_td.addEventListener('click', () => attack("gen"));
-    lucSquare_td.addEventListener('click', () => attack("luc"));
-    salSquare_td.addEventListener('click', () => attack("sal"));
-
-    milSquare_td.addEventListener('click', () => attack("mil"));
-    floSquare_td.addEventListener('click', () => attack("flo"));
-    romSquare_td.addEventListener('click', () => attack("rom"));
-
-    aviSquare_td.addEventListener('click', () => attack("avi"));
-    marSquare_td.addEventListener('click', () => attack("mar"));
-    golSquare_td.addEventListener('click', () => attack("gol"));
+    for (let i = 0; i < nations.length; i++) {
+        const current = document.getElementById(nations[i]);
+        current.addEventListener('click', () => attack(nations[i]));
+    }
 }
 
 main();
