@@ -14,15 +14,11 @@
  * them.
  */
 
-//const { JSDOM } = require( "jsdom" );
-//const { window } = new JSDOM( "" );
-//const $ = require( "jquery" )( window );
-
 const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
 console.log('Hello, World!');
 
-$(document).ready(function(){
+$(document).ready(function() {
     $(document.getElementsByClassName("game-board")).hide();
 })
 
