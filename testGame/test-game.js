@@ -7,8 +7,15 @@
 
 console.log('Hello, World!');
 
+function removeGlow(start) {
+    document.getElementById(start).classList.remove('blue-highlight');
+}
+
 function attack(start) {
-    
+    // Highlight selected square.
+    document.getElementById(start).classList.add('blue-highlight');
+    const random = document.getElementById(start);
+    random.addEventListener('click', () => removeGlow(start));
 }
 
 function main() {
@@ -37,3 +44,5 @@ function main() {
     marSquare_td.addEventListener('click', () => attack("mar"));
     golSquare_td.addEventListener('click', () => attack("gol"));
 }
+
+main();

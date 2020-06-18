@@ -71,6 +71,9 @@ body {
 }
 
 td {
-    
     color: black;
+}
+
+.blue-highlight {
+    background-color: rgb(142, 142, 245);
 }
