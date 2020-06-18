@@ -20,20 +20,43 @@ console.log('Hello, World!');
 
 function removeGlow(start) {
     document.getElementById(start).classList.remove('blue-highlight');
+    console.log("remove glow called")
+}
+
+var attackListener = function() {
+    attack(nations[i]);
 }
 
 function attack(start) {
-    // Highlight selected square.
-    document.getElementById(start).classList.add('blue-highlight');
-    const random = document.getElementById(start);
-    random.addEventListener('click', () => removeGlow(start));
+    return function () {
+        // Highlight selected square
+        document.getElementById(start).classList.add('blue-highlight');
+        const random = document.getElementById(start);
+        random.addEventListener('click', () => removeGlow(start));
+        console.log("attack called");
+    }
+}
+
+
+function openCall() {
+    for (let i = 0; i < nations.length; i++) {
+        const current = document.getElementById(nations[i]);
+        current.addEventListener('click', attack(nations[i]), false);
+        current.removeEventListener('click', attack(nations[i]), false);
+    }
+}
+
+function closeCall() {
+    for (let i = 0; i < nations.length; i++) {
+        const current = document.getElementById(nations[i]);
+        current.removeEventListener('click', attack(nations[i]));
+        console.log("closing call " + i);
+    }
 }
 
 function main() {
-    for (let i = 0; i < nations.length; i++) {
-        const current = document.getElementById(nations[i]);
-        current.addEventListener('click', () => attack(nations[i]));
-    }
+    openCall()
+    //closeCall()
 }
 
 main();
