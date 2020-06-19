@@ -19,8 +19,8 @@ const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 console.log('Hello, World!');
 
 $(document).ready(function() {
-    $(document.getElementsByClassName("game-board")).hide();
-})
+    $(document.getElementsByClassName("game-board")).hide(300);
+});
 
 /*
 function removeGlow(start) {
