@@ -95,7 +95,7 @@ const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 
 ctx.fillStyle = 'lightblue';
-// ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.beginPath();
 ctx.moveTo(75, 50);
 ctx.lineTo(100, 75);
