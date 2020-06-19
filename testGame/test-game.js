@@ -48,7 +48,7 @@ function makeBlue(nation) {
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
             // Draw arrow from attacker to attackee
-            console.log('draw arrow from attacker to attackee')
+            console.log('draw arrow from ' + attacker[0] + ' to ' + nation);
             attacker.pop();
 
         } else {
