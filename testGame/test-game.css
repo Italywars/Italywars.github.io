@@ -73,6 +73,7 @@ body {
 #map {
     padding: 0;
     margin: auto;
+    margin-top: 10px;
     display: block;
     border: 1px solid black;
 }
