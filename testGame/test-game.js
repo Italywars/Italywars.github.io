@@ -45,14 +45,14 @@ function makeBlue(nation) {
         }
 
         if (attacker.length === 1) {
-            // counter++;
+            counter++;
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
             // Draw arrow from attacker to attackee
-            console.log('draw arrow from ' + attacker[0] + ' to ' + nation);
-            // console.log('This is the ' + counter + ' attack');
-            // console.log('#' + counter);
-            // $('#' + counter).html('A ' + attacker[0] + '––' + nation);
+            // alert('draw arrow from ' + attacker[0] + ' to ' + nation);
+            console.log('This is the ' + counter + ' attack');
+            console.log('#' + counter);
+            $('#' + counter).html('A ' + attacker[0] + '––' + nation);
             attacker.pop();
         } else {
             $(nation).toggleClass('game-board');
