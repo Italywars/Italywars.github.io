@@ -68,3 +68,30 @@ $(function () {
         location.href = '../index.html';
     });
 })
+/*
+function draw() {
+    var canvas = document.getElementById('map');
+    if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+
+        ctx.strokeStyle = 'green';
+        ctx.beginPath()
+        ctx.moveTo(75, 25);
+        ctx.quadraticCurveTo(25, 25, 25, 62.5);
+        ctx.quadraticCurveTo(25, 100, 50, 100);
+        ctx.quadraticCurveTo(50, 120, 30, 125);
+        ctx.quadraticCurveTo(60, 120, 65, 100);
+        ctx.quadraticCurveTo(125, 100, 125, 62.5);
+        ctx.quadraticCurveTo(125, 25, 75, 25);
+        ctx.stroke();
+
+
+    }
+}
+*/
+
+const canvas = document.getElementById('map');
+const ctx = canvas.getContext('2d');
+
+ctx.fillStyle = 'green';
+ctx.fillRect(10, 10, 150, 100);
