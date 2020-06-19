@@ -111,5 +111,5 @@ function draw() {
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 
-ctx.fillStyle = 'red';
+ctx.fillStyle = 'green';
 ctx.fillRect(0, 0, 2000, 2000);
