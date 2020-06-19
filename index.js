@@ -1,47 +1,17 @@
-/**
- * Created by Simon Camacho on June 15,
- * 2020. 
- * 
- * @version 1.0 (6/15/20) {
- * Editor: Simon Camacho
- * 1. Enabled change-page
- * option
- * }
- * 
- */
+$(document).ready(function () {
+    const joinGame= document.getElementById('join-game');
+    const login = document.getElementById('login');
+    const rules = document.getElementById('rules');
 
+    $(joinGame).on('click', function () {
+        location.href = 'pages/game/game.html';
+    });
 
-/** 
- * Given a page name, links 
- * the user to that page.
-*/
-function changePage(pageName) {
-    switch (pageName) {
-        case "join-game":
-            location.href = "pages/game/game.html";
-            break;
-        case "login":
-            location.href = "pages/login/login.html";
-            break;
-        case "rules":
-            location.href = "pages/rules/rules.html";
-            break;
-    }
-}
+    $(login).on('click', function () {
+        location.href = 'pages/login/login.html';
+    });
 
-function main() {
-
-    // Access information in index.html
-    const joinGame_div = document.getElementById("join-game");
-    const login_div = document.getElementById("login");
-    const rules_div = document.getElementById("rules");
-
-    joinGame_div.addEventListener('click', () => changePage("join-game"));
-    login_div.addEventListener('click', () => changePage("login"));
-    rules_div.addEventListener('click', () => changePage("rules"));
-
-    // Just for fun. This isn't actually necessary.
-    return 0;
-}
-
-main();
+    $(rules).on('click', function () {
+        location.href = 'pages/rules/rules.html';
+    });
+})
