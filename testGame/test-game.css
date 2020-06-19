@@ -58,7 +58,7 @@ body {
     background:  #3a181a;
 }
 
-.game-board, td {
+.game-board, td, .orders {
     
     text-align: center;
     margin-left: auto;
@@ -68,16 +68,6 @@ body {
     padding: 15px;
     background-color: #ffffff;
 
-}
-
-.orders {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    border: 5px solid black;
-    border-collapse: collapse;
-    padding: 15px;
-    background-color: #ffffff;
 }
 
 #map {

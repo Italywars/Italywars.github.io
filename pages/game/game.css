@@ -76,8 +76,15 @@ body {
     padding: 10px;
 }
 
-#new-game {
+#new-game-header {
     padding: 40px;
     color: rgba(255, 255, 255, 0.623);
     font-weight: bold;
+}
+
+#new-game {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.623);
+    font-size: 15px;
+    left: 75px;
 }

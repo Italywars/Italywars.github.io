@@ -1,17 +1,16 @@
-$(document).ready(function () {
-    const home = document.getElementById('home');
-    const rules = document.getElementById('rules');
-    const joinGame = document.getElementById('join-game');
-
-    $(home).on('click', function () {
-        location.href = '../../index.html';
-    });
-
-    $(rules).on('click', function () {
-        location.href = '../rules/rules.html';
-    });
-
-    $(joinGame).on('click', function () {
-        location.href = '../game/game.html';
+$(function () {
+    $('.change-page').on('click', function () {
+        let current = $(this).attr('id');
+        switch(current) {
+            case 'join-game':
+                location.href = '../game/game.html';
+                break;
+            case 'home':
+                location.href = '../../index.html';
+                break;
+            case 'rules':
+                location.href = '../rules/rules.html';
+                break;
+        }
     });
 });

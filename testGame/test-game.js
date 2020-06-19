@@ -16,6 +16,8 @@
 
 const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
+const orders =['1', '2', '3', '4', '5'];
+
 console.log('Hello, World!');
 
 
@@ -43,14 +45,14 @@ function makeBlue(nation) {
         }
 
         if (attacker.length === 1) {
-            counter++;
+            // counter++;
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
             // Draw arrow from attacker to attackee
             console.log('draw arrow from ' + attacker[0] + ' to ' + nation);
-            console.log('This is the ' + counter + ' attack');
-            console.log('#' + counter);
-            $('#' + counter).html('A ' + attacker[0] + '––' + nation);
+            // console.log('This is the ' + counter + ' attack');
+            // console.log('#' + counter);
+            // $('#' + counter).html('A ' + attacker[0] + '––' + nation);
             attacker.pop();
         } else {
             $(nation).toggleClass('game-board');
@@ -68,11 +70,20 @@ $(document).ready(function() {
     }
 });
 
+// Makes the orders table red when mouse over it
+// $(document).ready(function () {
+//     for (let i = 0; i < orders.length; i++) {
+//         const idName = '#' + orders[i];
+//         $(idName).on('mouseover', function() {
+//             $(idName).css({'background-color': 'red'});
+//         });
+//     }
+// });
+
 
 // Link home
 $(function () {
-    const home = document.getElementById('home');
-    $(home).on('click', function () {
+    $('#home').on('click', function () {
         location.href = '../index.html';
     });
 })
