@@ -44,6 +44,10 @@ const attackee = [];
 
 function makeBlue(nation) {
     return function () {
+        if (attacker.includes(nation)) {
+            
+        }
+
         if (attacker.length === 1) {
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
