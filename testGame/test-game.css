@@ -58,7 +58,7 @@ body {
     background:  #3a181a;
 }
 
-.game-board, td {
+.game-board, td, .orders {
     
     text-align: center;
     margin-left: auto;

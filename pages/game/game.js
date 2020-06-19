@@ -1,22 +1,19 @@
-$(document).ready(function () {
-    const home = document.getElementById('home');
-    const login = document.getElementById('login');
-    const rules = document.getElementById('rules');
-    const newGame = document.getElementById('new-game');
-
-    $(home).on('click', function () {
-        location.href = '../../index.html';
-    });
-
-    $(login).on('click', function () {
-        location.href = '../login/login.html';
-    });
-
-    $(rules).on('click', function () {
-        location.href = '../rules/rules.html';
-    });
-
-    $(newGame).on('click', function () {
-        location.href = '../../testGame/test-game.html';
+$(function () {
+    $('.change-page').on('click', function () {
+        let current = $(this).attr('id');
+        switch(current) {
+            case 'home':
+                location.href = '../../index.html';
+                break;
+            case 'login':
+                location.href = '../login/login.html';
+                break;
+            case 'rules':
+                location.href = '../rules/rules.html';
+                break;
+            case 'new-game':
+                location.href = '../../testGame/test-game.html';
+                break;
+        }
     });
 });
