@@ -12,36 +12,30 @@
 
 
 /** 
- * Given a page name, links 
- * the user to that page.
+ * Given a page name, links the user to that page.
 */
 function changePage(pageName) {
     switch (pageName) {
-        case "rules":
+        case "#rules":
             location.href = "../../pages/rules/rules.html";
             break;
-        case "login":
+        case "#login":
             location.href = "../../pages/login/login.html";
             break;
-        case "home":
+        case "#home":
             location.href = "../../index.html";
+            break;
+        case "#new-game":
+            location.href = "../../testGame/test-game.html";
             break;
     }
 }
 
-function main() {
+const pages = ['rules', 'login', 'home', 'new-game'];
 
-    // Access information in index.html
-    const rules_div = document.getElementById("rules");
-    const login_div = document.getElementById("login");
-    const home_div = document.getElementById("home");
-
-    rules_div.addEventListener('click', () => changePage("rules"));
-    login_div.addEventListener('click', () => changePage("login"));
-    home_div.addEventListener('click', () => changePage("home"));
-
-    // Just for fun. This isn't actually necessary.
-    return 0;
-}
-
-main();
+$(document).ready(function() {
+    for (let i = 0; i < pages.length; i++) {
+        const page = '#' + pages[i];
+        $(page).on('click', changePage(page));
+    }
+});

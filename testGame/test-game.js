@@ -32,7 +32,9 @@ const attackee = [];
 function makeBlue(nation) {
     return function () {
         if (attacker.includes(nation)) {
-            
+            // bold attacker if clicking on itself –– hold order
+            // need to add unbold if is bold
+            $(attacker[0]).css({'font-weight': 'bold'});
         }
 
         if (attacker.length === 1) {
@@ -46,7 +48,6 @@ function makeBlue(nation) {
             console.log('Alexander has blue balls');
             attacker.push(nation);
         }
-        // console.log(JSON.stringify(attacker));
     };
 }
 
@@ -56,10 +57,3 @@ $(document).ready(function() {
         $(idName).on('click', makeBlue(idName));
     }
 });
-
-
-function main() {
-
-}
-
-main();
