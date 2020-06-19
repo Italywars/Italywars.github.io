@@ -22,6 +22,7 @@ $(document).ready(function() {
     // $(document.getElementsByClassName("game-board")).hide(300);
 });
 
+/*
 //Listen for selecting click on any country
 //Highlight country that has been clicked and selected
 //End listen for selecting click
@@ -29,19 +30,33 @@ $(document).ready(function() {
 //Conditional: if country attacks itself, then deselect
 //              else deselect country and draw arrow
 //Begin listening for selecting click
+*/
+
+// If attack.length = 0
+// Make attacker blue
+// If attacker length = 1
+// attackee push nation
+// draw arrow from attacker to attackee
+// push attacker and attackee
 
 const attacker = [];
+const attackee = [];
 
 function makeBlue(nation) {
     return function () {
-        $(nation).toggleClass('game-board');
         if (attacker.length === 1) {
+            attackee.push(nation);
+            $(attacker[0]).toggleClass('game-board');
+            // Draw arrow from attacker to attackee
+            console.log('draw arrow from attacker to attackee')
             attacker.pop();
+
         } else {
+            $(nation).toggleClass('game-board');
             attacker.push(nation);
         }
-        console.log(JSON.stringify(attacker));
-        console.log('Alexander has blue balls');
+        // console.log(JSON.stringify(attacker));
+        // console.log('Alexander has blue balls');
     };
 }
 
