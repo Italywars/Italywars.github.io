@@ -18,19 +18,6 @@ const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
 console.log('Hello, World!');
 
-$(document).ready(function() {
-    // $(document.getElementsByClassName("game-board")).hide(300);
-});
-
-/*
-//Listen for selecting click on any country
-//Highlight country that has been clicked and selected
-//End listen for selecting click
-//Open listen for attacking click
-//Conditional: if country attacks itself, then deselect
-//              else deselect country and draw arrow
-//Begin listening for selecting click
-*/
 
 // If attack.length = 0
 // Make attacker blue
@@ -54,7 +41,6 @@ function makeBlue(nation) {
             // Draw arrow from attacker to attackee
             console.log('draw arrow from ' + attacker[0] + ' to ' + nation);
             attacker.pop();
-
         } else {
             $(nation).toggleClass('game-board');
             console.log('Alexander has blue balls');
@@ -64,58 +50,16 @@ function makeBlue(nation) {
     };
 }
 
-
 $(document).ready(function() {
     for (let i = 0; i < nations.length; i++) {
         const idName = '#' + nations[i];
         $(idName).on('click', makeBlue(idName));
     }
-
 });
 
-// SAMPLE HIGHLIGHT 
-/**
- * $("#tag-name").css({color: 'blue', opacity: '0.5'});
- */
-
-/*
-function removeGlow(start) {
-    document.getElementById(start).classList.remove('blue-highlight');
-    console.log("remove glow called")
-}
-
-function attack(start) {
-    return function () {
-        // Highlight selected square
-        document.getElementById(start).classList.add('blue-highlight');
-        const random = document.getElementById(start);
-        random.addEventListener('click', () => removeGlow(start));
-        console.log("attack called");
-    }
-}
-
-function openCall() {
-    for (let i = 0; i < nations.length; i++) {
-        const current = document.getElementById(nations[i]);
-        current.addEventListener('click', attack(nations[i]), false);
-        current.removeEventListener('click', attack(nations[i]), false);
-    }
-}
-
-function closeCall() {
-    for (let i = 0; i < nations.length; i++) {
-        const current = document.getElementById(nations[i]);
-        current.removeEventListener('click', attack(nations[i]));
-        console.log("closing call " + i);
-    }
-}
-*/
 
 function main() {
-    //openCall()
-    //closeCall()
+
 }
 
 main();
-
-
