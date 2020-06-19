@@ -45,7 +45,7 @@ function makeBlue(nation) {
         }
 
         if (attacker.length === 1) {
-            // counter++;
+            counter++;
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
             // Draw arrow from attacker to attackee
