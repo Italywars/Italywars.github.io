@@ -55,6 +55,7 @@ function makeBlue(nation) {
     };
 }
 
+// Ready clicks
 $(document).ready(function() {
     for (let i = 0; i < nations.length; i++) {
         const idName = '#' + nations[i];
@@ -62,6 +63,8 @@ $(document).ready(function() {
     }
 });
 
+
+// Link home
 $(function () {
     const home = document.getElementById('home');
     $(home).on('click', function () {
