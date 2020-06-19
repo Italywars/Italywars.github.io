@@ -72,6 +72,11 @@ body {
 
 td {
     color: black;
+    background-color: white;
+}
+
+td:hover, td.game-board {
+    background-color: blue;
 }
 
 .blue-highlight {

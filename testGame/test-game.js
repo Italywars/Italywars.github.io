@@ -19,8 +19,45 @@ const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 console.log('Hello, World!');
 
 $(document).ready(function() {
-    $(document.getElementsByClassName("game-board")).hide(300);
+    // $(document.getElementsByClassName("game-board")).hide(300);
 });
+
+//Listen for selecting click on any country
+//Highlight country that has been clicked and selected
+//End listen for selecting click
+//Open listen for attacking click
+//Conditional: if country attacks itself, then deselect
+//              else deselect country and draw arrow
+//Begin listening for selecting click
+
+const attacker = [];
+
+function makeBlue(nation) {
+    return function () {
+        $(nation).toggleClass('game-board');
+        if (attacker.length === 1) {
+            attacker.pop();
+        } else {
+            attacker.push(nation);
+        }
+        console.log(JSON.stringify(attacker));
+        console.log('Alexander has blue balls');
+    };
+}
+
+
+$(document).ready(function() {
+    for (let i = 0; i < nations.length; i++) {
+        const idName = '#' + nations[i];
+        $(idName).on('click', makeBlue(idName));
+    }
+
+});
+
+// SAMPLE HIGHLIGHT 
+/**
+ * $("#tag-name").css({color: 'blue', opacity: '0.5'});
+ */
 
 /*
 function removeGlow(start) {
@@ -63,10 +100,3 @@ function main() {
 main();
 
 
-//Listen for selecting click on any country
-//Highlight country that has been clicked and selected
-//End listen for selecting click
-//Open listen for attacking click
-//Conditional: if country attacks itself, then deselect
-//              else deselect country and draw arrow
-//Begin listening for selecting click
