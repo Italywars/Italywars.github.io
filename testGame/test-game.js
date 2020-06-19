@@ -57,3 +57,10 @@ $(document).ready(function() {
         $(idName).on('click', makeBlue(idName));
     }
 });
+
+$(function () {
+    const home = document.getElementById('home');
+    $(home).on('click', function () {
+        location.href = '../index.html';
+    });
+})

@@ -16,26 +16,36 @@
 */
 function changePage(pageName) {
     switch (pageName) {
-        case "#rules":
+        case "rules":
             location.href = "../../pages/rules/rules.html";
             break;
-        case "#login":
+        case "login":
             location.href = "../../pages/login/login.html";
             break;
-        case "#home":
+        case "home":
             location.href = "../../index.html";
             break;
-        case "#new-game":
+        case "new-game":
             location.href = "../../testGame/test-game.html";
             break;
     }
 }
 
-const pages = ['rules', 'login', 'home', 'new-game'];
+function main() {
 
-$(document).ready(function() {
-    for (let i = 0; i < pages.length; i++) {
-        const page = '#' + pages[i];
-        $(page).on('click', changePage(page));
-    }
-});
+    // Access information in index.html
+    const joinGame_div = document.getElementById("join-game");
+    const rules_div = document.getElementById("rules");
+    const home_div = document.getElementById("home");
+    const newGame_div = document.getElementById("new-game");
+
+    joinGame_div.addEventListener('click', () => changePage("join-game"));
+    rules_div.addEventListener('click', () => changePage("rules"));
+    home_div.addEventListener('click', () => changePage("home"));
+    newGame_div.addEventListener('click', () => changePage("new-game"));
+
+    // Just for fun. This isn't actually necessary.
+    return 0;
+}
+
+main();
