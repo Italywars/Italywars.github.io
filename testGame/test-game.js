@@ -34,7 +34,11 @@ function makeBlue(nation) {
         if (attacker.includes(nation)) {
             // bold attacker if clicking on itself –– hold order
             // need to add unbold if is bold
-            $(attacker[0]).css({'font-weight': 'bold'});
+            // if (attacker[0].prop('font-weight') !== 'bold') {
+            //     $(attacker[0]).css({'font-weight': 'bold'});
+            // } else {
+            //     $(attacker[0]).css({'font-weight': 0});
+            // }
         }
 
         if (attacker.length === 1) {
