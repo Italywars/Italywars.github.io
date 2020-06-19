@@ -80,7 +80,6 @@ $(document).ready(function() {
 //     }
 // });
 
-
 // Link home
 $(function () {
     $('#home').on('click', function () {
@@ -112,5 +111,5 @@ function draw() {
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 
-ctx.fillStyle = 'green';
-ctx.fillRect(10, 10, 150, 100);
+ctx.fillStyle = 'red';
+ctx.fillRect(0, 0, 2000, 2000);
