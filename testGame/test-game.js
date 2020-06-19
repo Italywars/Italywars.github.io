@@ -53,10 +53,10 @@ function makeBlue(nation) {
 
         } else {
             $(nation).toggleClass('game-board');
+            console.log('Alexander has blue balls');
             attacker.push(nation);
         }
         // console.log(JSON.stringify(attacker));
-        // console.log('Alexander has blue balls');
     };
 }
 
