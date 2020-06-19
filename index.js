@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    const joinGame= document.getElementById('join-game');
+    const joinGame = document.getElementById('join-game');
     const login = document.getElementById('login');
     const rules = document.getElementById('rules');
 
@@ -14,4 +14,4 @@ $(document).ready(function () {
     $(rules).on('click', function () {
         location.href = 'pages/rules/rules.html';
     });
-})
+});
