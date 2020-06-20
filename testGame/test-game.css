@@ -20,40 +20,6 @@ header > h1:hover {
     cursor: pointer;
 }
 
-/* #join-game, #login, #rules {
-    position: absolute;
-    color: #5a4953;
-    font-size: 15px;
-    top: 10px;
-} */
-/* 
-#join-game {
-    right: 200px;
-}
-
-#login {
-    right: 100px;
-}
-
-#rules {
-    right: 340px;
-} */
-
-
-/* .change-page {
-    color: white;
-    font-size: 14px;
-    padding: 2px 10px;
-    border: 3px solid black;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.change-page:hover {
-    cursor: pointer;
-    background: white;
-} */
-
 body {
     background:  #3a181a;
 }
@@ -84,12 +50,16 @@ td {
     background-color: white;
 }
 
-td:hover, td.game-board {
+td:hover {
     background-color: blue;
 }
 
 .blue-highlight {
-    background-color: rgb(142, 142, 245);
+    background-color: rgb(144, 144, 250);
+}
+
+.green-highlight {
+    background-color: rgb(90, 231, 90);
 }
 
 #home {
@@ -108,8 +78,4 @@ td:hover, td.game-board {
 #home:hover {
     cursor: pointer;
     background: white;
-}
-
-.green-highlight {
-    background-color: green;
 }

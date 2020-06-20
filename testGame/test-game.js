@@ -26,53 +26,70 @@ console.log('Hello, World!');
 // draw arrow from attacker to attackee
 // push attacker and attackee
 
-const attacker = [];
-// Why exactly do we need attackee?
-const attackee = [];
-let counter = 0;
+let attacker = [];
+let visited = [];
+// Add ability to view visited nations so that visited nations are
+// removed from orders list (i.e. reset orders)
+
+// Add ability to remove orders manually from the orders list (and that
+// will affect stuff on the map)
+
+// ADD A BOOLEAN BUTTON THAT IF SOMEONE PRESSES CONVOY/SUPPORT, IT SWITCHES
+// THE BOOLEAN TO TRUE AND THEN DRAWS A DOTTED LINE (FOR NOW CAN USE
+// COLORS TO DESIGNATE CONVOY ORDER) (ALSO WILL NEED TO CHANGE WRITE
+// ORDER TO REFLECT THIS)
 
 
-function writeOrder(nation1, nation2, counter) {
-  // add calls to toupper
-  const orderRow = '#' + counter;
-  if (nation1 == nation2) {
-    $(orderRow).html('A ' + toUpperCase(nation1) + ' H');
-  } 
-  else {
-    console.log(nation1.toUpperCase());
-    $(orderRow).html('A ' + nation1.toUpperCase() + '––' + nation2.toUpperCase());
+/** Given two nations, writes the desired move to
+ * the orders table 
+ */
+function writeOrder(nation1, nation2) {
+  let table = document.getElementById('orders');
+  let newRow = table.insertRow(-1);
+  let newCell = newRow.insertCell(0);
+  let newOrder = '';
+  if (nation1 === nation2) {
+    newOrder = document.createTextNode('A ' + nation1.toUpperCase() + ' H');
+  } else {
+    newOrder = document.createTextNode('A ' + nation1.toUpperCase() + '––' + nation2.toUpperCase());
   }
+  newCell.appendChild(newOrder);
 }
 
 
+/** Given a nation, performs whatever move is desired
+ * of that nation g, removes that row 
+ */
 function makeMove(nation) {
     return function () {
-        counter++;
         if (attacker.includes(nation)) {
-            $(nation).toggleClass('green-highlight');
-            writeOrder(nation, nation, counter);
+            $('#' + nation).removeClass('blue-highlight');
+            $('#' + nation).addClass('green-highlight');
+            writeOrder(nation, nation);
             attacker.pop();
         }
-        if (attacker.length === 1) {
-            attackee.push(nation);
-            $(attacker[0]).toggleClass('game-board');
+        else if (attacker.length === 1) {
+            $('#' + attacker[0]).removeClass('blue-highlight');
             // Draw arrow from attacker to attackee
-            // alert('draw arrow from ' + attacker[0] + ' to ' + nation);
-            console.log('This is the ' + counter + ' attack');
-            console.log('#' + counter);
-            writeOrder(attacker.pop(), nation, counter);
+            writeOrder(attacker.pop(), nation);
         } else {
-            $(nation).toggleClass('game-board');
-            console.log('Alexander has blue balls');
+            $('#' + nation).addClass('blue-highlight');
             attacker.push(nation);
         }
     };
 }
 
 
+/** Given an order row id, removes that row */
+function removeOrder(orderRow) {
+    return function () {
+        document.getElementById(orderRow).remove();
+    }
+}
 
 
-// Ready clicks
+
+/** THIS IS THE MAIN FUNCTION */
 $(function() {
     // Linking home
     $('#home').on('click', function () {
@@ -83,6 +100,12 @@ $(function() {
     for (let i = 0; i < nations.length; i++) {
         const nation = nations[i];
         $('#' + nation).on('click', makeMove(nation));
+    }
+
+    // ADD THE ABILITY TO REMOVE ORDERS
+    for (let i = 0; i < 5; i++) {
+        $('orders').on('click', removeOrder(this));
+        console.log(this);
     }
 });
 
@@ -213,5 +236,6 @@ canvas.addEventListener('click', (e) => {
   const shape = colorsHash[color];
   if (shape) {
      alert('click on circle: ' + shape.id);
+     writeOrder(shape.id, shape.id);
   }
  });
