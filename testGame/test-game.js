@@ -31,28 +31,28 @@ const attacker = [];
 const attackee = [];
 let counter = 0;
 
+
 function writeOrder(nation1, nation2, counter) {
   // add calls to toupper
-  if (nation1 === nation2) {
-    $('#' + counter).html('A ' + nation1 + ' H');
+  const orderRow = '#' + counter;
+  if (nation1 == nation2) {
+    $(orderRow).html('A ' + toUpperCase(nation1) + ' H');
   } 
   else {
-    $('#' + counter).html('A ' + nation1 + '––' + nation);
+    console.log(nation1.toUpperCase());
+    $(orderRow).html('A ' + nation1.toUpperCase() + '––' + nation2.toUpperCase());
   }
 }
 
-
-function holdOrder(nation) {
-  $(nation).toggleClass('green-highlight');
-}
 
 function makeMove(nation) {
     return function () {
         counter++;
         if (attacker.includes(nation)) {
-            holdOrder(nation);
+            $(nation).toggleClass('green-highlight');
+            writeOrder(nation, nation, counter);
+            attacker.pop();
         }
-
         if (attacker.length === 1) {
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
@@ -60,8 +60,7 @@ function makeMove(nation) {
             // alert('draw arrow from ' + attacker[0] + ' to ' + nation);
             console.log('This is the ' + counter + ' attack');
             console.log('#' + counter);
-            $('#' + counter).html('A ' + attacker[0] + '––' + nation);
-            attacker.pop();
+            writeOrder(attacker.pop(), nation, counter);
         } else {
             $(nation).toggleClass('game-board');
             console.log('Alexander has blue balls');
@@ -82,8 +81,8 @@ $(function() {
 
     // Clicking on map locations
     for (let i = 0; i < nations.length; i++) {
-        const idName = '#' + nations[i];
-        $(idName).on('click', makeMove(idName));
+        const nation = nations[i];
+        $('#' + nation).on('click', makeMove(nation));
     }
 });
 
