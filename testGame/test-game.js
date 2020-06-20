@@ -148,9 +148,9 @@ const colorsHash = {};
 
 // Generate a random color
 function getRandomColor() {
- const r = Math.round(Math.random() * 255);
- const g = Math.round(Math.random() * 255);
- const b = Math.round(Math.random() * 255);
+ const r = Math.round(Math.random() * 255); // Simon here! you could also do math.random() * 256
+ const g = Math.round(Math.random() * 255); // and then use the math.floor() function which rounds
+ const b = Math.round(Math.random() * 255); // down
  return `rgb(${r},${g},${b})`;
 }
 
