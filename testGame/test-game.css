@@ -109,3 +109,7 @@ td:hover, td.game-board {
     cursor: pointer;
     background: white;
 }
+
+.green-highlight {
+    background-color: green;
+}

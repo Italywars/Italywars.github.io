@@ -16,8 +16,6 @@
 
 const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
-const orders =['1', '2', '3', '4', '5'];
-
 console.log('Hello, World!');
 
 
@@ -29,23 +27,33 @@ console.log('Hello, World!');
 // push attacker and attackee
 
 const attacker = [];
+// Why exactly do we need attackee?
 const attackee = [];
 let counter = 0;
 
-function makeBlue(nation) {
+function writeOrder(nation1, nation2, counter) {
+  // add calls to toupper
+  if (nation1 === nation2) {
+    $('#' + counter).html('A ' + nation1 + ' H');
+  } 
+  else {
+    $('#' + counter).html('A ' + nation1 + '––' + nation);
+  }
+}
+
+
+function holdOrder(nation) {
+  $(nation).toggleClass('green-highlight');
+}
+
+function makeMove(nation) {
     return function () {
+        counter++;
         if (attacker.includes(nation)) {
-            // bold attacker if clicking on itself –– hold order
-            // need to add unbold if is bold
-            // if (attacker[0].prop('font-weight') !== 'bold') {
-            //     $(attacker[0]).css({'font-weight': 'bold'});
-            // } else {
-            //     $(attacker[0]).css({'font-weight': 0});
-            // }
+            holdOrder(nation);
         }
 
         if (attacker.length === 1) {
-            counter++;
             attackee.push(nation);
             $(attacker[0]).toggleClass('game-board');
             // Draw arrow from attacker to attackee
@@ -62,13 +70,25 @@ function makeBlue(nation) {
     };
 }
 
+
+
+
 // Ready clicks
-$(document).ready(function() {
+$(function() {
+    // Linking home
+    $('#home').on('click', function () {
+        location.href = '../index.html';
+    });
+
+    // Clicking on map locations
     for (let i = 0; i < nations.length; i++) {
         const idName = '#' + nations[i];
-        $(idName).on('click', makeBlue(idName));
+        $(idName).on('click', makeMove(idName));
     }
 });
+
+
+
 
 // Makes the orders table red when mouse over it
 // $(document).ready(function () {
@@ -79,13 +99,6 @@ $(document).ready(function() {
 //         });
 //     }
 // });
-
-// Link home
-$(function () {
-    $('#home').on('click', function () {
-        location.href = '../index.html';
-    });
-})
 
 
 // ----------------------------------------------------------
