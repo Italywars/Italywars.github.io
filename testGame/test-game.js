@@ -136,9 +136,9 @@ const colorsHash = {};
 
 // Generate a random color
 function getRandomColor() {
- const r = Math.round(Math.random() * 255); // Simon here! you could also do math.random() * 256
- const g = Math.round(Math.random() * 255); // and then use the math.floor() function which rounds
- const b = Math.round(Math.random() * 255); // down
+ const r = Math.floor(Math.random() * 256); // Simon here! you could also do math.random() * 256
+ const g = Math.floor(Math.random() * 256); // and then use the math.floor() function which rounds
+ const b = Math.floor(Math.random() * 256); // down
  return `rgb(${r},${g},${b})`;
 }
 
@@ -146,7 +146,8 @@ function getRandomColor() {
 const nations = [];
 for (let i = 0; i < nationlist.length; i++) {
   nations.push({
-    id: nationlist[i], x: 40*i, y: 40*i, radius: 10, color: 'rgb(255,0,0)'
+    // Names and centers each circle and initializes the visible color value
+    id: nationlist[i], x: 80*(i+1), y: 60, radius: 30, color: 'rgb(255,0,0)'
   })
 }
 
@@ -182,6 +183,7 @@ function hasSameColor(color, nation) {
   return nation.color === color;
 }
 
+/*
 // Add click listener
 // Might be easier to use jquery
 canvas.addEventListener('click', (e) => {
@@ -200,7 +202,44 @@ canvas.addEventListener('click', (e) => {
     alert('click on nation: ' + shape.id);
     writeOrder(shape.id, shape.id);
   }
- });
+});
+*/
+
+function prepareMove() {
+  return function (e) {
+    console.log('hi');
+    // Document the click location and adjust for canvas size
+    const mousePos = {
+      x: e.clientX - canvas.offsetLeft,
+      y: e.clientY - canvas.offsetTop
+    };
+    console.log(mousePos);
+    // Get pixel color and compare it to the list
+    const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
+    const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+    const shape = colorsHash[color];
+    console.log('shape: ' + shape + ', color, ' + color + ', pixel, ' + pixel);
+    // If there is a match, log alert
+    if (shape) {
+      alert('click on nation: ' + shape.id);
+      writeOrder(shape.id, shape.id);
+    }
+  }
+};
+
+canvas.addEventListener('click', prepareMove());
+
+
+
+
+/*
+$(function() {
+  for (let i = 0; i < nationlist.length; i++) {
+    const nation = nationlist[i];
+    $('#' + nation).on('click', prepareMove());
+  }
+});
+*/
 
 // ----------------------------------------------------------
 
