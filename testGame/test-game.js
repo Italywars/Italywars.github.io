@@ -121,14 +121,14 @@ $(function() {
 
 
 // ----------------------------------------------------------
+// Create canvas element for visible map
+const canvas = document.getElementById('visible-canvas');
+const ctx = canvas.getContext('2d');
 
 // Create canvas element for invisible clicking map
-const hitCanvas = document.getElementById('map-canvas');
+const hitCanvas = document.createElement('canvas');
 const hitCtx = hitCanvas.getContext('2d');
 
-// Create canvas element for visible map
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
 
 
 // To store color data
