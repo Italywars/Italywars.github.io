@@ -88,7 +88,6 @@ function removeOrder(orderRow) {
 }
 
 
-
 /** THIS IS THE MAIN FUNCTION */
 $(function() {
     // Linking home
@@ -110,8 +109,6 @@ $(function() {
 });
 
 
-
-
 // Makes the orders table red when mouse over it
 // $(document).ready(function () {
 //     for (let i = 0; i < orders.length; i++) {
@@ -125,7 +122,89 @@ $(function() {
 
 // ----------------------------------------------------------
 
-/*
+
+// Create canvas element for visible map
+const canvas = document.getElementById('map-canvas');
+const ctx = canvas.getContext('2d');
+
+// Create canvas element for invisible clicking map
+const hitCanvas = document.getElementById('map-canvas');
+const hitCtx = hitCanvas.getContext('2d');
+
+// To store color data
+const colorsHash = {};
+
+// Generate a random color
+function getRandomColor() {
+ const r = Math.round(Math.random() * 255); // Simon here! you could also do math.random() * 256
+ const g = Math.round(Math.random() * 255); // and then use the math.floor() function which rounds
+ const b = Math.round(Math.random() * 255); // down
+ return `rgb(${r},${g},${b})`;
+}
+
+// Populate nations on map from the master list
+const nations = [];
+for (let i = 0; i < nationlist.length; i++) {
+  nations.push({
+    id: nationlist[i], x: 40*i, y: 40*i, radius: 10, color: 'rgb(255,0,0)'
+  })
+}
+
+// Assign the nations a random color
+nations.forEach(circle => {
+	while(true) {
+     const colorKey = getRandomColor();
+     if (!colorsHash[colorKey]) {
+        circle.colorKey = colorKey;
+        colorsHash[colorKey] = circle;
+        return;
+     }
+  }
+});
+
+// Draw the countries
+nations.forEach(circle => {
+  // Draw visible map
+  ctx.beginPath();
+  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+  ctx.fillStyle = circle.color;
+  ctx.fill();
+  
+  // Draw invisible map
+  hitCtx.beginPath();
+  hitCtx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+  hitCtx.fillStyle = circle.colorKey;
+  hitCtx.fill();
+});
+
+// Test if nations on invisble map have same color
+function hasSameColor(color, nation) {
+  return nation.color === color;
+}
+
+// Add click listener
+// Might be easier to use jquery
+canvas.addEventListener('click', (e) => {
+  // Document the click location and adjust for canvas size
+  const mousePos = {
+    x: e.clientX - canvas.offsetLeft,
+    y: e.clientY - canvas.offsetTop
+  };
+  // Get pixel color and compare it to the list
+  const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
+  const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+  const shape = colorsHash[color];
+  console.log('shape: ' + shape + ', color,' + color + ', pixel, ' + pixel);
+  // If there is a match, log alert
+  if (shape) {
+    alert('click on nation: ' + shape.id);
+    writeOrder(shape.id, shape.id);
+  }
+ });
+
+// ----------------------------------------------------------
+
+ /*
 const canvas = document.getElementById('map');
 const ctx = canvas.getContext('2d');
 
@@ -169,83 +248,3 @@ elements.forEach(function(ele) {
    context.fillRect(ele.left, ele.top, ele.width, ele.height);
 });
 */
-
-// Create canvas element for visible map
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
-
-// Create canvas element for invisible clicking map
-const hitCanvas = document.getElementById('map-canvas');
-const hitCtx = hitCanvas.getContext('2d');
-
-// What is this for?
-const colorsHash = {};
-
-// Generate a random color
-function getRandomColor() {
- const r = Math.round(Math.random() * 255); // Simon here! you could also do math.random() * 256
- const g = Math.round(Math.random() * 255); // and then use the math.floor() function which rounds
- const b = Math.round(Math.random() * 255); // down
- return `rgb(${r},${g},${b})`;
-}
-
-
-const nations = [];
-for (let i = 0; i < nationlist.length; i++) {
-  nations.push({
-    id: nationlist[i], x: 40*i, y: 40*i, radius: 10, color: 'rgb(255,0,0)'
-  })
-}
-
-// console.log(nations[1]);
-
-nations.forEach(circle => {
-	while(true) {
-     const colorKey = getRandomColor();
-     if (!colorsHash[colorKey]) {
-        circle.colorKey = colorKey;
-        colorsHash[colorKey] = circle;
-        return;
-     }
-  }
-});
-
-// console.log(nations[1]);
-
-nations.forEach(circle => {
-  ctx.beginPath();
-  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-  ctx.fillStyle = circle.color;
-  ctx.fill();
-  
-  hitCtx.beginPath();
-  hitCtx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-  hitCtx.fillStyle = circle.colorKey;
-  hitCtx.fill();
-});
-
-// Test if nations have same color
-function hasSameColor(color, nation) {
-  return nation.color === color;
-}
-
-// console.log(colorsHash);
-
-canvas.addEventListener('click', (e) => {
-  const mousePos = {
-    x: e.clientX - canvas.offsetLeft,
-    y: e.clientY - canvas.offsetTop
-  };
-  const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
-  const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-  const shape = colorsHash[color];
-  console.log('shape: ' + shape + ', color,' + color + ', pixel, ' + pixel);
-  if (shape) {
-     alert('click on nation: ' + shape.id);
-    //  writeOrder(shape.id, shape.id);
-  }
- });
-
-// console.log(colorsHash[`rgb(${pixel[0]},${pixel[1]},${pixel[2]})`]);
-
-//  + shape.id
