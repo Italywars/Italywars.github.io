@@ -136,9 +136,9 @@ const colorsHash = {};
 
 // Generate a random color
 function getRandomColor() {
- const r = Math.floor(Math.random() * 256); // Simon here! you could also do math.random() * 256
- const g = Math.floor(Math.random() * 256); // and then use the math.floor() function which rounds
- const b = Math.floor(Math.random() * 256); // down
+ const r = Math.floor(Math.random() * 256);
+ const g = Math.floor(Math.random() * 256);
+ const b = Math.floor(Math.random() * 256);
  return `rgb(${r},${g},${b})`;
 }
 
@@ -151,52 +151,55 @@ for (let i = 0; i < nationlist.length; i++) {
   })
 }
 
-// Assign the nations a random color
-nations.forEach(circle => {
+nationlist.forEach(nation => {
+  while(true) {
+    const colorKey = getRandomColor();
+    if (!colorsHash[colorKey]) {
+       let tester = {
+        // Names and centers each circle and initializes the visible color value
+        id: nationlist[i], x: 80*(i+1), y: 60, radius: 30, color: 'rgb(255,0,0)'
+    };
+      
+       nation.colorKey = colorKey;
+       colorsHash[colorKey] = nation;
+       return;
+    }
+ }
+});
+
+
+/** Assign the nations a unique random color */
+nations.forEach(nation => {
 	while(true) {
      const colorKey = getRandomColor();
      if (!colorsHash[colorKey]) {
-        circle.colorKey = colorKey;
-        colorsHash[colorKey] = circle;
+        nation.colorKey = colorKey;
+        colorsHash[colorKey] = nation;
         return;
      }
   }
 });
 
-// Rect country design function
-function designNation(ctx, nation) {
-  ctx.beginPath();
-  ctx.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
-  ctx.fillStyle = nation.colorKey;
-  ctx.fill();
+/** Country design function */
+function designNation(layer, nation, colorChoice) {
+  layer.beginPath();
+  layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  layer.fillStyle = colorChoice;
+  layer.fill();
 }
 
 // Draw the countries
 nations.forEach(nation => {
-  /*
-  // Draw visible map
-  ctx.beginPath();
-  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-  ctx.fillStyle = circle.color;
-  ctx.fill();
-  */
-
-  /*
-  // Draw invisible map
-  hitCtx.beginPath();
-  hitCtx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-  hitCtx.fillStyle = circle.colorKey;
-  hitCtx.fill();
-  */
-
-  designNation(hitCtx, nation);
-
+  designNation(ctx, nation, nation.color);
+  designNation(hitCtx, nation, nation.colorKey);
 });
 
+/*
 // Test if nations on invisble map have same color
 function hasSameColor(color, nation) {
   return nation.color === color;
 }
+*/
 
 function prepareMove() {
   return function (e) {
@@ -210,12 +213,12 @@ function prepareMove() {
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-    const shape = colorsHash[color];
-    console.log('shape: ' + shape + ', color, ' + color + ', pixel, ' + pixel);
+    const nation = colorsHash[color];
+    console.log('shape: ' + nation + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
-    if (shape) {
-      alert('click on nation: ' + shape.id);
-      writeOrder(shape.id, shape.id);
+    if (nation) {
+      alert('click on nation: ' + nation.id);
+      writeOrder(nation.id, nation.id);
     }
   }
 };
