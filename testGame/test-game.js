@@ -105,7 +105,7 @@ $(function() {
     // ADD THE ABILITY TO REMOVE ORDERS
     for (let i = 0; i < 5; i++) {
         $('orders').on('click', removeOrder(this));
-        console.log(this);
+        // console.log(this);
     }
 });
 
@@ -197,7 +197,7 @@ for (let i = 0; i < nationlist.length; i++) {
   })
 }
 
-console.log(nations[1]);
+// console.log(nations[1]);
 
 nations.forEach(circle => {
 	while(true) {
@@ -210,7 +210,7 @@ nations.forEach(circle => {
   }
 });
 
-console.log(nations[1]);
+// console.log(nations[1]);
 
 nations.forEach(circle => {
   ctx.beginPath();
@@ -239,9 +239,10 @@ canvas.addEventListener('click', (e) => {
   const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
   const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
   const shape = colorsHash[color];
+  console.log('shape: ' + shape + ', color,' + color + ', pixel, ' + pixel);
   if (shape) {
-     alert('click on nation: ' + shape.id);
-     writeOrder(shape.id, shape.id);
+     alert('click on nation: ');
+    //  writeOrder(shape.id, shape.id);
   }
  });
 
