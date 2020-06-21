@@ -122,7 +122,7 @@ $(function() {
 
 // ----------------------------------------------------------
 // Create canvas element for visible map
-const canvas = document.getElementById('visible-canvas');
+const canvas = document.getElementById('map-canvas');
 const ctx = canvas.getContext('2d');
 
 // Create canvas element for invisible clicking map
@@ -153,7 +153,7 @@ nationlist.forEach(nation => {
         x: 80*(counter+1), 
         y: 60, 
         radius: 30, 
-        color: 'rgb(255,0,0)',
+        color: 'rgb(255,255,255)',
         colorKey: colorKey
       };
       colorsHash[colorKey] = nationObject;
