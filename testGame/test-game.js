@@ -163,13 +163,23 @@ nations.forEach(circle => {
   }
 });
 
-// Draw the countries
-nations.forEach(circle => {
-  // Draw visible map
+// Rect country design function
+function designNation(ctx, circle) {
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = circle.color;
   ctx.fill();
+}
+
+// Draw the countries
+nations.forEach(circle => {
+  // Draw visible map
+  /*
+  ctx.beginPath();
+  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
+  ctx.fillStyle = circle.color;
+  ctx.fill();
+  */
   
   // Draw invisible map
   hitCtx.beginPath();
@@ -182,28 +192,6 @@ nations.forEach(circle => {
 function hasSameColor(color, nation) {
   return nation.color === color;
 }
-
-/*
-// Add click listener
-// Might be easier to use jquery
-canvas.addEventListener('click', (e) => {
-  // Document the click location and adjust for canvas size
-  const mousePos = {
-    x: e.clientX - canvas.offsetLeft,
-    y: e.clientY - canvas.offsetTop
-  };
-  // Get pixel color and compare it to the list
-  const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
-  const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-  const shape = colorsHash[color];
-  console.log('shape: ' + shape + ', color,' + color + ', pixel, ' + pixel);
-  // If there is a match, log alert
-  if (shape) {
-    alert('click on nation: ' + shape.id);
-    writeOrder(shape.id, shape.id);
-  }
-});
-*/
 
 function prepareMove() {
   return function (e) {
