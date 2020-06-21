@@ -241,7 +241,7 @@ canvas.addEventListener('click', (e) => {
   const shape = colorsHash[color];
   console.log('shape: ' + shape + ', color,' + color + ', pixel, ' + pixel);
   if (shape) {
-     alert('click on nation: ');
+     alert('click on nation: ' + shape.id);
     //  writeOrder(shape.id, shape.id);
   }
  });
