@@ -14,7 +14,7 @@
  * them.
  */
 
-const nations = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
+const nationlist = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
 console.log('Hello, World!');
 
@@ -97,8 +97,8 @@ $(function() {
     });
 
     // Clicking on map locations
-    for (let i = 0; i < nations.length; i++) {
-        const nation = nations[i];
+    for (let i = 0; i < nationlist.length; i++) {
+        const nation = nationlist[i];
         $('#' + nation).on('click', makeMove(nation));
     }
 
@@ -189,15 +189,17 @@ function getRandomColor() {
  return `rgb(${r},${g},${b})`;
 }
 
-// Creates two circles
-const circles = [{
-  id: '1', x: 40, y: 40, radius: 10, color: 'rgb(255,0,0)'
-}, {
-  id: '2', x: 100, y: 70, radius: 10, color: 'rgb(0,255,0)'
-}];
 
+const nations = [];
+for (let i = 0; i < nationlist.length; i++) {
+  nations.push({
+    id: nationlist[i], x: 40*i, y: 40*i, radius: 10, color: 'rgb(255,0,0)'
+  })
+}
 
-circles.forEach(circle => {
+console.log(nations[1]);
+
+nations.forEach(circle => {
 	while(true) {
      const colorKey = getRandomColor();
      if (!colorsHash[colorKey]) {
@@ -208,7 +210,9 @@ circles.forEach(circle => {
   }
 });
 
-circles.forEach(circle => {
+console.log(nations[1]);
+
+nations.forEach(circle => {
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = circle.color;
@@ -225,6 +229,7 @@ function hasSameColor(color, nation) {
   return nation.color === color;
 }
 
+// console.log(colorsHash);
 
 canvas.addEventListener('click', (e) => {
   const mousePos = {
@@ -235,7 +240,11 @@ canvas.addEventListener('click', (e) => {
   const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
   const shape = colorsHash[color];
   if (shape) {
-     alert('click on circle: ' + shape.id);
+     alert('click on nation: ' + shape.id);
      writeOrder(shape.id, shape.id);
   }
  });
+
+// console.log(colorsHash[`rgb(${pixel[0]},${pixel[1]},${pixel[2]})`]);
+
+//  + shape.id
