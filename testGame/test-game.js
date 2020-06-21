@@ -122,14 +122,14 @@ $(function() {
 
 // ----------------------------------------------------------
 
+// Create canvas element for invisible clicking map
+const hitCanvas = document.getElementById('map-canvas');
+const hitCtx = hitCanvas.getContext('2d');
 
 // Create canvas element for visible map
 const canvas = document.getElementById('map-canvas');
 const ctx = canvas.getContext('2d');
 
-// Create canvas element for invisible clicking map
-const hitCanvas = document.getElementById('map-canvas');
-const hitCtx = hitCanvas.getContext('2d');
 
 // To store color data
 const colorsHash = {};
@@ -142,43 +142,27 @@ function getRandomColor() {
  return `rgb(${r},${g},${b})`;
 }
 
-// Populate nations on map from the master list
-const nations = [];
-for (let i = 0; i < nationlist.length; i++) {
-  nations.push({
-    // Names and centers each circle and initializes the visible color value
-    id: nationlist[i], x: 80*(i+1), y: 60, radius: 30, color: 'rgb(255,0,0)'
-  })
-}
 
+let counter = 0;
 nationlist.forEach(nation => {
   while(true) {
     const colorKey = getRandomColor();
     if (!colorsHash[colorKey]) {
-       let tester = {
-        // Names and centers each circle and initializes the visible color value
-        id: nationlist[i], x: 80*(i+1), y: 60, radius: 30, color: 'rgb(255,0,0)'
-    };
-      
-       nation.colorKey = colorKey;
-       colorsHash[colorKey] = nation;
-       return;
+      const nationObject = {
+        id: nation, 
+        x: 80*(counter+1), 
+        y: 60, 
+        radius: 30, 
+        color: 'rgb(255,0,0)',
+        colorKey: colorKey
+      };
+      colorsHash[colorKey] = nationObject;
+      counter++;
+      return;
     }
  }
 });
 
-
-/** Assign the nations a unique random color */
-nations.forEach(nation => {
-	while(true) {
-     const colorKey = getRandomColor();
-     if (!colorsHash[colorKey]) {
-        nation.colorKey = colorKey;
-        colorsHash[colorKey] = nation;
-        return;
-     }
-  }
-});
 
 /** Country design function */
 function designNation(layer, nation, colorChoice) {
@@ -188,11 +172,13 @@ function designNation(layer, nation, colorChoice) {
   layer.fill();
 }
 
-// Draw the countries
-nations.forEach(nation => {
-  designNation(ctx, nation, nation.color);
-  designNation(hitCtx, nation, nation.colorKey);
+$(function () {
+  for (let [key, value] of Object.entries(colorsHash)) {
+    designNation(hitCtx, value, value.colorKey);
+    designNation(ctx, value, value.color);
+  }
 });
+
 
 /*
 // Test if nations on invisble map have same color
@@ -217,6 +203,7 @@ function prepareMove() {
     console.log('shape: ' + nation + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
     if (nation) {
+      makeMove(nation);
       alert('click on nation: ' + nation.id);
       writeOrder(nation.id, nation.id);
     }
