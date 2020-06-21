@@ -164,28 +164,33 @@ nations.forEach(circle => {
 });
 
 // Rect country design function
-function designNation(ctx, circle) {
+function designNation(ctx, nation) {
   ctx.beginPath();
-  ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
-  ctx.fillStyle = circle.color;
+  ctx.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  ctx.fillStyle = nation.colorKey;
   ctx.fill();
 }
 
 // Draw the countries
-nations.forEach(circle => {
-  // Draw visible map
+nations.forEach(nation => {
   /*
+  // Draw visible map
   ctx.beginPath();
   ctx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
   ctx.fillStyle = circle.color;
   ctx.fill();
   */
-  
+
+  /*
   // Draw invisible map
   hitCtx.beginPath();
   hitCtx.arc(circle.x, circle.y, circle.radius, 0, 2 * Math.PI, false);
   hitCtx.fillStyle = circle.colorKey;
   hitCtx.fill();
+  */
+
+  designNation(hitCtx, nation);
+
 });
 
 // Test if nations on invisble map have same color
