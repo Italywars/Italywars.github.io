@@ -124,6 +124,7 @@ function populateColorsHash(colorsHash, nationlist) {
       }
     }
   });
+  // console.log(JSON.stringify(colorsHash));
 }
 
 
@@ -192,6 +193,7 @@ function main() {
   */
   let colorsHash = {};
   populateColorsHash(colorsHash, nationlist);
+  // console.log(JSON.stringify(colorsHash));
 
   // Create canvas element for visible map
   const canvas = document.getElementById('map-canvas');
