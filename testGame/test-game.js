@@ -14,10 +14,6 @@
  * them.
  */
 
-const nationlist = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
-
-console.log('Hello, World!');
-
 
 // If attack.length = 0
 // Make attacker blue
@@ -26,8 +22,7 @@ console.log('Hello, World!');
 // draw arrow from attacker to attackee
 // push attacker and attackee
 
-let attacker = [];
-let visited = [];
+
 // Add ability to view visited nations so that visited nations are
 // removed from orders list (i.e. reset orders)
 
@@ -40,8 +35,9 @@ let visited = [];
 // ORDER TO REFLECT THIS)
 
 
-/** Given two nations, writes the desired move to
- * the orders table 
+/** 
+ * Given two nations, writes the desired move to
+ * the orders table.
  */
 function writeOrder(nation1, nation2) {
   let table = document.getElementById('orders');
@@ -57,10 +53,11 @@ function writeOrder(nation1, nation2) {
 }
 
 
-/** Given a nation, performs whatever move is desired
- * of that nation g, removes that row 
+/** 
+ * Given a nation, performs the desired
+ * moves based on contextual information.
  */
-function makeMove(nation) {
+function makeMove(nation, attacker) {
     return function () {
         if (attacker.includes(nation)) {
             $('#' + nation).removeClass('blue-highlight');
@@ -80,7 +77,10 @@ function makeMove(nation) {
 }
 
 
-/** Given an order row id, removes that row */
+/** 
+ * Given an order row id, removes that row.
+ * THIS FUNCTION NEEDS WORK
+*/
 function removeOrder(orderRow) {
     return function () {
         document.getElementById(orderRow).remove();
@@ -88,53 +88,7 @@ function removeOrder(orderRow) {
 }
 
 
-/** THIS IS THE MAIN FUNCTION */
-$(function() {
-    // Linking home
-    $('#home').on('click', function () {
-        location.href = '../index.html';
-    });
-
-    // Clicking on map locations
-    for (let i = 0; i < nationlist.length; i++) {
-        const nation = nationlist[i];
-        $('#' + nation).on('click', makeMove(nation));
-    }
-
-    // ADD THE ABILITY TO REMOVE ORDERS
-    for (let i = 0; i < 5; i++) {
-        $('orders').on('click', removeOrder(this));
-        // console.log(this);
-    }
-});
-
-
-// Makes the orders table red when mouse over it
-// $(document).ready(function () {
-//     for (let i = 0; i < orders.length; i++) {
-//         const idName = '#' + orders[i];
-//         $(idName).on('mouseover', function() {
-//             $(idName).css({'background-color': 'red'});
-//         });
-//     }
-// });
-
-
-// ----------------------------------------------------------
-// Create canvas element for visible map
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
-
-// Create canvas element for invisible clicking map
-const hitCanvas = document.createElement('canvas');
-const hitCtx = hitCanvas.getContext('2d');
-
-
-
-// To store color data
-const colorsHash = {};
-
-// Generate a random color
+/** Generate a random color, returned as an rgb string. */
 function getRandomColor() {
  const r = Math.floor(Math.random() * 256);
  const g = Math.floor(Math.random() * 256);
@@ -143,26 +97,41 @@ function getRandomColor() {
 }
 
 
-let counter = 0;
-nationlist.forEach(nation => {
-  while(true) {
-    const colorKey = getRandomColor();
-    if (!Object.keys(colorsHash).includes(colorKey)) {
-      colorsHash[colorKey] = {
-        id: nation, 
-        x: 80*(counter+1), 
-        y: 60, 
-        radius: 30, 
-        color: 'rgb(255,255,255)',
-      };
-      counter++;
-      return;
+/** 
+ * Given the empty colorsHash object,
+ * populates the object with key, value
+ * pairs. Keys are randomly generated
+ * colors as rgb strings. Values are
+ * nation objects which contain
+ * information about the name and 
+ * location and color of that nation.
+ */
+function populateColorsHash(colorsHash, nationlist) {
+  let counter = 0;
+  nationlist.forEach(nation => {
+    while(true) {
+      const colorKey = getRandomColor();
+      if (!Object.keys(colorsHash).includes(colorKey)) {
+        colorsHash[colorKey] = {
+          id: nation, 
+          x: 80 * (counter + 1), 
+          y: 60, 
+          radius: 30, 
+          color: 'rgb(255,255,255)',
+        };
+        counter++;
+        return;
+      }
     }
- }
-});
+  });
+}
 
 
-/** Country design function */
+/** 
+ * Given the proper layer, a nation object,
+ * and the appropriate color to use, draws the
+ * desired nation.
+ */
 function designNation(layer, nation, colorChoice) {
   layer.beginPath();
   layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
@@ -170,22 +139,12 @@ function designNation(layer, nation, colorChoice) {
   layer.fill();
 }
 
-$(function () {
-  for (let [key, value] of Object.entries(colorsHash)) {
-    designNation(hitCtx, value, key);
-    designNation(ctx, value, value.color);
-  }
-});
 
-
-/*
-// Test if nations on invisble map have same color
-function hasSameColor(color, nation) {
-  return nation.color === color;
-}
-*/
-
-function prepareMove() {
+/** 
+ * On a click, will alert the screen
+ * with whichever nation was clicked.
+ */
+function prepareMove(attacker, canvas, hitCtx, colorsHash) {
   return function (e) {
     console.log('hi');
     // Document the click location and adjust for canvas size
@@ -203,75 +162,74 @@ function prepareMove() {
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
       const nation = colorsHash[colorKey];
-      makeMove(nation.id);
-      alert('click on nation: ' + nation.id);
+      makeMove(nation.id, attacker);
+      console.log('click on nation: ' + nation.id);
+      // alert('click on nation: ' + nation.id);
       writeOrder(nation.id, nation.id);
     }
   }
-};
-
-$(function() {
-  $(canvas).on('click', prepareMove());
-});
+}
 
 
-// canvas.addEventListener('click', prepareMove());
-// hitCanvas.addEventListener('click', prepareMove());
+/** 
+ * This is the main function. Every other function
+ * should stem from this branch.
+ */
+function main() {
 
+  const nationlist = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
 
+  console.log('Hello, World!');
 
-/*
-$(function() {
+  let attacker = [];
+  let visited = [];
+
+  /** 
+  * Object used to store nation objects
+  * (so an object of objects). Individually
+  * (and randomly) generated colors are keys.
+  * Nation objects are values.
+  */
+  let colorsHash = {};
+  populateColorsHash(colorsHash, nationlist);
+
+  // Create canvas element for visible map
+  const canvas = document.getElementById('map-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Create canvas element for invisible clicking map
+  const hitCanvas = document.createElement('canvas');
+  const hitCtx = hitCanvas.getContext('2d');
+
+  // Draw the visible and invisible maps
+  $(function () {
+    for (let [key, value] of Object.entries(colorsHash)) {
+      designNation(hitCtx, value, key);
+      designNation(ctx, value, value.color);
+    }
+  });
+
+  // Allow for moves on the map-canvas
+  $(canvas).on('click', prepareMove(attacker, canvas, hitCtx, colorsHash));
+
+  // Allow for clicking home
+  $('#home').on('click', function () {
+    location.href = '../index.html';
+  });
+
+  // Allow for moves on the map-table locations
+  // (this will be removed)
   for (let i = 0; i < nationlist.length; i++) {
     const nation = nationlist[i];
-    $('#' + nation).on('click', prepareMove());
+    $('#' + nation).on('click', makeMove(nation, attacker));
   }
-});
-*/
 
-// ----------------------------------------------------------
+  // ADD THE ABILITY TO REMOVE ORDERS
+  for (let i = 0; i < 5; i++) {
+    $('orders').on('click', removeOrder(this));
+    // console.log(this);
+  }
+}
 
- /*
-const canvas = document.getElementById('map');
-const ctx = canvas.getContext('2d');
 
-ctx.fillStyle = 'lightblue';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.beginPath();
-ctx.moveTo(75, 50);
-ctx.lineTo(100, 75);
-ctx.lineTo(100, 25);
-ctx.fillStyle = 'black';
-ctx.fill();
-*/
-
-/*
-var e = document.getElementById('map');
-   elemLeft = e.offsetLeft;
-   elemTop = e.offsetTop;
-   context = e.getContext('2d');
-   elements = [];
-
-// event listener for click event
-e.addEventListener('click', function(event) {
-   var xVal = event.pageX - elemLeft;
-   yVal = event.pageY - elemTop;
-   console.log(xVal, yVal);
-   elements.forEach(function(ele) {
-      if (yVal > ele.top && yVal < ele.top + ele.height && xVal > ele.left && xVal < ele.left + ele.width) {
-         alert('element clicked');
-      }
-   });
-}, false);
-elements.push({
-   color:'purple',
-   width: 250,
-   height: 200,
-   top: 30,
-   left: 20
-});
-elements.forEach(function(ele) {
-   context.fillStyle = ele.color;
-   context.fillRect(ele.left, ele.top, ele.width, ele.height);
-});
-*/
+main();
