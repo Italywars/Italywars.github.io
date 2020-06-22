@@ -199,9 +199,11 @@ function prepareMove() {
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-    //console.log('shape: ' + nation + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
+    // console.log(color);
+    // console.log(JSON.stringify(pixel));
+    // console.log('nation: ' + JSON.stringify(colorsHash[color]) + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
-    if (colorsHash[color]) {
+    if (Object.keys(colorsHash).includes(color)) {
       const nation = colorsHash[color];
       makeMove(nation);
       alert('click on nation: ' + nation.id);
