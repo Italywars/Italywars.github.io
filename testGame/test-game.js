@@ -147,16 +147,14 @@ let counter = 0;
 nationlist.forEach(nation => {
   while(true) {
     const colorKey = getRandomColor();
-    if (!colorsHash[colorKey]) {
-      const nationObject = {
+    if (!Object.keys(colorsHash).includes(colorKey)) {
+      colorsHash[colorKey] = {
         id: nation, 
         x: 80*(counter+1), 
         y: 60, 
         radius: 30, 
         color: 'rgb(255,255,255)',
-        colorKey: colorKey
       };
-      colorsHash[colorKey] = nationObject;
       counter++;
       return;
     }
@@ -174,7 +172,7 @@ function designNation(layer, nation, colorChoice) {
 
 $(function () {
   for (let [key, value] of Object.entries(colorsHash)) {
-    designNation(hitCtx, value, value.colorKey);
+    designNation(hitCtx, value, key);
     designNation(ctx, value, value.color);
   }
 });
@@ -198,14 +196,14 @@ function prepareMove() {
     console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
-    const color = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
+    const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
     // console.log(color);
     // console.log(JSON.stringify(pixel));
     // console.log('nation: ' + JSON.stringify(colorsHash[color]) + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
-    if (Object.keys(colorsHash).includes(color)) {
-      const nation = colorsHash[color];
-      makeMove(nation);
+    if (Object.keys(colorsHash).includes(colorKey)) {
+      const nation = colorsHash[colorKey];
+      makeMove(nation.id);
       alert('click on nation: ' + nation.id);
       writeOrder(nation.id, nation.id);
     }
