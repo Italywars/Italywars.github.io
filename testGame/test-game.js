@@ -212,8 +212,13 @@ function prepareMove() {
   }
 };
 
-canvas.addEventListener('click', prepareMove());
+$(function() {
+  $(canvas).on('click', prepareMove());
+});
 
+
+// canvas.addEventListener('click', prepareMove());
+// hitCanvas.addEventListener('click', prepareMove());
 
 
 
