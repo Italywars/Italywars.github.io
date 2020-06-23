@@ -204,7 +204,7 @@ function main() {
   let ctx = canvas.getContext('2d');
 
   // Create canvas element for invisible clicking map
-  const hitCanvas = document.getElementById('key-canvas');
+  const hitCanvas = document.createElement('canvas');
   const hitCtx = hitCanvas.getContext('2d');
 
   // Draw the visible and invisible maps
