@@ -1,40 +1,3 @@
-/**
- * Test making a grid, and drawing an arrow
- * between different places on the grid.
- * Additionally, try to get a side view
- * demonstrating which boxes have been selected.
- * 
- * 
- * 
- * Select a square (it highlights)
- * 
- * Select a second square (that must be
- * adjacent to the first square), it highlights 
- * momentarily, and then an arrow is drawn between
- * them.
- */
-
-
-// If attack.length = 0
-// Make attacker blue
-// If attacker length = 1
-// attackee push nation
-// draw arrow from attacker to attackee
-// push attacker and attackee
-
-
-// Add ability to view visited nations so that visited nations are
-// removed from orders list (i.e. reset orders)
-
-// Add ability to remove orders manually from the orders list (and that
-// will affect stuff on the map)
-
-// ADD A BOOLEAN BUTTON THAT IF SOMEONE PRESSES CONVOY/SUPPORT, IT SWITCHES
-// THE BOOLEAN TO TRUE AND THEN DRAWS A DOTTED LINE (FOR NOW CAN USE
-// COLORS TO DESIGNATE CONVOY ORDER) (ALSO WILL NEED TO CHANGE WRITE
-// ORDER TO REFLECT THIS)
-
-
 /** 
  * Given two nations, writes the desired move to
  * the orders table.
@@ -124,7 +87,6 @@ function populateColorsHash(colorsHash, nationlist) {
       }
     }
   });
-  // console.log(JSON.stringify(colorsHash));
 }
 
 // We need two draw functions so the text and borders
@@ -162,7 +124,6 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
       x: e.clientX - canvas.offsetLeft,
       y: e.clientY - canvas.offsetTop
     };
-    // console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
@@ -170,9 +131,9 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
     if (Object.keys(colorsHash).includes(colorKey)) {
       console.log('mrpoopybutthole');
       const nation = colorsHash[colorKey];
-      makeMove(nation.id, attacker);
       console.log('click on nation: ' + nation.id);
       // alert('click on nation: ' + nation.id);
+      makeMove(nation.id, attacker);
       writeOrder(nation.id, nation.id);
     }
   }
