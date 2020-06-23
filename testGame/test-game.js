@@ -165,7 +165,7 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
     // console.log('nation: ' + JSON.stringify(colorsHash[color]) + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
-      console.log('mrpoopybuthole');
+      console.log('mrpoopybutthole');
       const nation = colorsHash[colorKey];
       makeMove(nation.id, attacker);
       console.log('click on nation: ' + nation.id);
