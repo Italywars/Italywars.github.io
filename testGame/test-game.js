@@ -81,6 +81,7 @@ function populateColorsHash(colorsHash, nationlist) {
           y: 60, 
           edge: 80, 
           color: 'rgb(173,216,230)',
+          selectColor: 'rgb(120,180,230)'
         };
         counter++;
         return;
@@ -117,7 +118,7 @@ function designNation(layer, nation, colorChoice) {
  * On a click, will alert the screen
  * with whichever nation was clicked.
  */
-function prepareMove(attacker, canvas, hitCtx, colorsHash) {
+function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
   return function (e) {
     // Document the click location and adjust for canvas size
     const mousePos = {
@@ -135,10 +136,13 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
       // alert('click on nation: ' + nation.id);
       makeMove(nation.id, attacker);
       writeOrder(nation.id, nation.id);
+      console.log(colorsHash[colorKey]);
+      designNation(ctx, nation, nation.selectColor);
     }
   }
 }
 
+// ------------------------------------------------------------------------------------
 
 /** 
  * This is the main function. Every other function
@@ -185,7 +189,7 @@ function main() {
   });
 
   // Allow for moves on the map-canvas
-  $(canvas).on('click', prepareMove(attacker, canvas, hitCtx, colorsHash));
+  $(canvas).on('click', prepareMove(attacker, canvas, ctx, hitCtx, colorsHash));
 
   // Allow for clicking home
   $('#home').on('click', function () {
