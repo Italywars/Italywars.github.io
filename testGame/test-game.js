@@ -166,7 +166,6 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-    console.log(JSON.stringify(pixel));
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
       const nation = colorsHash[colorKey];
