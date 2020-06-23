@@ -157,17 +157,15 @@ function designNation(layer, nation, colorChoice) {
  */
 function prepareMove(attacker, canvas, hitCtx, colorsHash) {
   return function (e) {
-    console.log('hi');
     // Document the click location and adjust for canvas size
     const mousePos = {
       x: e.clientX - canvas.offsetLeft,
       y: e.clientY - canvas.offsetTop
     };
-    console.log(mousePos);
+    // console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-    console.log(JSON.stringify(pixel));
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
       console.log('mrpoopybutthole');
