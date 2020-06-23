@@ -135,9 +135,10 @@ function populateColorsHash(colorsHash, nationlist) {
  */
 function designNation(layer, nation, colorChoice) {
   layer.beginPath();
-  layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
   layer.fillStyle = colorChoice;
   layer.fill();
+  layer.fillRect(nation.x, nation.y, nation.radius, nation.radius)
   console.log('drawing ' + nation + ' on ' + layer)
 }
 
