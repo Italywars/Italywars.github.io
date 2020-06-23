@@ -138,7 +138,7 @@ function designNation(layer, nation, colorChoice) {
   layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
   layer.fillStyle = colorChoice;
   layer.fill();
-  console.log('drawing ' + nation + ' on ' + layer)
+  // console.log('drawing ' + nation + ' on ' + layer)
 }
 
 
@@ -148,24 +148,21 @@ function designNation(layer, nation, colorChoice) {
  */
 function prepareMove(attacker, canvas, hitCtx, colorsHash) {
   return function (e) {
-    console.log('hi');
     // Document the click location and adjust for canvas size
     const mousePos = {
       x: e.clientX - canvas.offsetLeft,
       y: e.clientY - canvas.offsetTop
     };
-    console.log(mousePos);
+    // console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
     console.log(JSON.stringify(pixel));
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
-      console.log('mrpoopybutthole');
       const nation = colorsHash[colorKey];
       makeMove(nation.id, attacker);
       console.log('click on nation: ' + nation.id);
-      // alert('click on nation: ' + nation.id);
       writeOrder(nation.id, nation.id);
     }
   }
