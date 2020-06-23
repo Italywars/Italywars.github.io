@@ -15,6 +15,38 @@ function writeOrder(nation1, nation2) {
   newCell.appendChild(newOrder);
 }
 
+/**
+ * Given attacker and target, performs an attack.
+ */
+function attack(attacker, target) {
+  return function () {
+
+  }
+}
+
+
+/**
+ * Given a supporting nation and the supportee, performs
+ * a support move. If target is specified, support can
+ * be given for an attack or possibly a convoy.
+ */
+function support(supporter, supportee, target) {
+  return function () {
+    
+  }
+}
+
+
+/**
+ * Given a fleet, a passenger, and a target, performs
+ * a convoy of the passenger to the target.
+ */
+function convoy(fleet, passenger, target) {
+  return function () {
+    
+  }
+}
+
 
 /** 
  * Given a nation, performs the desired
@@ -23,9 +55,9 @@ function writeOrder(nation1, nation2) {
 function makeMove(nation, attacker) {
     return function () {
         if (attacker.includes(nation)) {
-            $('#' + nation).removeClass('blue-highlight');
-            $('#' + nation).addClass('green-highlight');
-            writeOrder(nation, nation);
+            $('#' + nation).removeClass('blue-highlight'); // Alex here! I added some functions above
+            $('#' + nation).addClass('green-highlight');   // Do you think you could implement those into the
+            writeOrder(nation, nation);                    // makeMove function? It would make drawing much easier
             attacker.pop();
         }
         else if (attacker.length === 1) {
@@ -135,7 +167,7 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
       // alert('click on nation: ' + nation.id);
       makeMove(nation.id, attacker);
       writeOrder(nation.id, nation.id);
-      console.log(colorsHash[colorKey]);
+      // console.log(colorsHash[colorKey]);
       designNation(ctx, nation, nation.selectColor);
     }
   }
