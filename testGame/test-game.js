@@ -138,6 +138,7 @@ function designNation(layer, nation, colorChoice) {
   layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
   layer.fillStyle = colorChoice;
   layer.fill();
+  console.log('drawing ' + nation + ' on ' + layer)
 }
 
 
@@ -203,7 +204,7 @@ function main() {
   const ctx = canvas.getContext('2d');
 
   // Create canvas element for invisible clicking map
-  const hitCanvas = document.createElement('canvas');
+  const hitCanvas = document.getElementById('key-canvas');
   const hitCtx = hitCanvas.getContext('2d');
 
   // Draw the visible and invisible maps
@@ -211,7 +212,6 @@ function main() {
     for (let [key, value] of Object.entries(colorsHash)) {
       designNation(hitCtx, value, key);
       designNation(ctx, value, value.color);
-      console.log('seniorsquiggles')
     }
   });
 
