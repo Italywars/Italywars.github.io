@@ -200,8 +200,8 @@ function main() {
   // console.log(JSON.stringify(colorsHash));
 
   // Create canvas element for visible map
-  const canvas = document.getElementById('map-canvas');
-  const ctx = canvas.getContext('2d');
+  let canvas = document.getElementById('map-canvas');
+  let ctx = canvas.getContext('2d');
 
   // Create canvas element for invisible clicking map
   const hitCanvas = document.getElementById('key-canvas');
