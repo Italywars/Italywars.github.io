@@ -130,7 +130,6 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
-      console.log('mrpoopybutthole');
       const nation = colorsHash[colorKey];
       console.log('click on nation: ' + nation.id);
       // alert('click on nation: ' + nation.id);
