@@ -116,8 +116,8 @@ function populateColorsHash(colorsHash, nationlist) {
           id: nation, 
           x: 80 * (counter + 1), 
           y: 60, 
-          radius: 30, 
-          color: 'rgb(255,255,255)',
+          edge: 80, 
+          color: 'rgb(173,216,230)',
         };
         counter++;
         return;
@@ -127,6 +127,11 @@ function populateColorsHash(colorsHash, nationlist) {
   // console.log(JSON.stringify(colorsHash));
 }
 
+// We need two draw functions so the text and borders
+// on the visible map. We can write the baseline drawing
+// function separately and nest it in a full drawing
+// function for the visible map
+
 
 /** 
  * Given the proper layer, a nation object,
@@ -135,12 +140,16 @@ function populateColorsHash(colorsHash, nationlist) {
  */
 function designNation(layer, nation, colorChoice) {
   layer.beginPath();
-  layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
   layer.fillStyle = colorChoice;
-  layer.fill();
-  // console.log('drawing ' + nation + ' on ' + layer)
+  layer.strokeStyle = 'black';
+  layer.font = 'small-caps 20px Times New Roman';
+  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  // layer.fill();
+  layer.fillRect(nation.x, nation.y, nation.edge, nation.edge);
+  layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
+  layer.fillStyle = 'black';
+  layer.fillText(nation.id, nation.x + 26, nation.y + 42, );
 }
-
 
 /** 
  * On a click, will alert the screen
