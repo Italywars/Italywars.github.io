@@ -158,10 +158,13 @@ function prepareMove(attacker, canvas, hitCtx, colorsHash) {
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
     // console.log(color);
-    // console.log(JSON.stringify(pixel));
+    // console.log(JSON.stringify(colorsHash));
+    // console.log(JSON.stringify(colorsHash));
+    console.log(JSON.stringify(pixel));
     // console.log('nation: ' + JSON.stringify(colorsHash[color]) + ', color, ' + color + ', pixel, ' + pixel + ', colorsHash, ' + JSON.stringify(colorsHash));
     // If there is a match, log alert
     if (Object.keys(colorsHash).includes(colorKey)) {
+      console.log('mrpoopybuthole');
       const nation = colorsHash[colorKey];
       makeMove(nation.id, attacker);
       console.log('click on nation: ' + nation.id);
@@ -208,6 +211,7 @@ function main() {
     for (let [key, value] of Object.entries(colorsHash)) {
       designNation(hitCtx, value, key);
       designNation(ctx, value, value.color);
+      console.log('seniorsquiggles')
     }
   });
 
