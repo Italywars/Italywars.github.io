@@ -1,16 +1,36 @@
+/**
+ * This file tests building
+ * a sample game, as will
+ * be used in the future
+ * for games. 
+ * 
+ */
+
+
 /** 
- * Given two nations, writes the desired move to
+ * Given a variable number of nations, writes 
+ * the desired move to
  * the orders table.
  */
-function writeOrder(nation1, nation2) {
+function writeOrder(...nation) {
   let table = document.getElementById('orders');
   let newRow = table.insertRow(-1);
   let newCell = newRow.insertCell(0);
   let newOrder = '';
-  if (nation1 === nation2) {
-    newOrder = document.createTextNode('A ' + nation1.toUpperCase() + ' H');
-  } else {
-    newOrder = document.createTextNode('A ' + nation1.toUpperCase() + '––' + nation2.toUpperCase());
+  if (nation.length === 1) {
+    newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' H');
+  } else if (nation.length === 2) {
+    newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + '––' + nation[1].toUpperCase());
+  } else if (nation.length === 4) {
+    if (nation[3] === 'support') {
+      if (nation[1] === nation[2]) {
+        newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' S A ' + nation[1].toUpperCase());
+      } else {
+        newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' S A ' + nation[1].toUpperCase() + '––' + nation[2].toUpperCase());
+      }
+    } else if (nation[3] === 'convoy') {
+      newOrder = document.createTextNode('F ' + nation[0].toUpperCase() + ' C A ' + nation[1].toUpperCase() + '––' + nation[2].toUpperCase());
+    }
   }
   newCell.appendChild(newOrder);
 }
@@ -18,10 +38,11 @@ function writeOrder(nation1, nation2) {
 /**
  * Given attacker and target, performs an attack.
  */
-function attack(attacker, target) {
-  $('#' + attacker[0]).removeClass('blue-highlight');
+function attackOrder(attacker, target) {
+  console.log('ATTACK')
+  $('#' + attacker).removeClass('blue-highlight');
   // Draw arrow from attacker to attackee
-  writeOrder(attacker.pop(), target);
+  writeOrder(attacker, target);
 }
 
 
@@ -30,10 +51,12 @@ function attack(attacker, target) {
  * a support move. If target is specified, support can
  * be given for an attack or possibly a convoy.
  */
-function support(supporter, supportee, target) {
-  return function () {
-    
-  }
+function supportOrder(supporter, supportee, target) {
+  console.log('SUPPORT');
+  $('#support').removeClass('blue-highlight');
+  $('#' + supporter).removeClass('blue-highlight');
+  $('#' + supportee).removeClass('green-highlight');
+  writeOrder(supporter, supportee, target, 'support');
 }
 
 
@@ -41,10 +64,12 @@ function support(supporter, supportee, target) {
  * Given a fleet, a passenger, and a target, performs
  * a convoy of the passenger to the target.
  */
-function convoy(fleet, passenger, target) {
-  return function () {
-    
-  }
+function convoyOrder(fleet, passenger, target) {
+  console.log('CONVOY');
+  $('#support').removeClass('blue-highlight');
+  $('#' + fleet).removeClass('blue-highlight');
+  $('#' + passenger).removeClass('green-highlight');
+  writeOrder(fleet, passenger, target, 'convoy');
 }
 
 /**
@@ -52,31 +77,51 @@ function convoy(fleet, passenger, target) {
  * hold order and removes the nation from
  * attacker.
  */
-function hold(attacker, nation) {
-  $('#' + nation).removeClass('blue-highlight');
-  $('#' + nation).addClass('green-highlight');
-  writeOrder(nation, nation);
-  attacker.pop();
+function holdOrder(nation) {
+  console.log('HOLD');
+  let button = '#' + nation;
+  $(button).removeClass('blue-highlight');
+  $(button).addClass('bold-text');
+  writeOrder(nation);
 }
 
 /** 
  * Given a nation, performs the desired
  * moves based on contextual information.
  */
-function makeMove(nation, attacker, convoy, support) {
+function makeMove(nation, attacker, support, convoy, modifier, visited) {
   return function () {
-    if (attacker.includes(nation)) {
-      hold(attacker, nation);
+    if (support.classList.contains('blue-highlight') && convoy.classList.contains('blue-highlight')) {
+      alert('Support and convoy may not be selected simultaneously. Please deselect both and try again.');
     }
-    else if (attacker.length === 1) {
-      if (support) {
-        console.log('hello');
-      } else if (convoy) {
-        convoy(nation, attacker[0], nation);
-      } else {
-        attack(attacker, nation);
+    if (modifier.length === 0) {
+      if (support.classList.contains('blue-highlight') || convoy.classList.contains('blue-highlight')) {
+        $('#' + nation).addClass('green-highlight');
+        modifier.push(nation);
+        return;
       }
+    }
+    if (attacker.length === 1) {
+      let initializer = attacker.pop();
+      if (initializer === nation) {
+        // HOLD ORDER
+        holdOrder(nation);
+      } else if (support.classList.contains('blue-highlight')) {
+        // SUPPORT ORDER
+        supportOrder(initializer, modifier.pop(), nation);
+      } else if (convoy.classList.contains('blue-highlight')) {
+        // CONVOY ORDER
+        convoyOrder(initializer, modifier.pop(), nation);
+      } else {
+        // ATTACK ORDER
+        attackOrder(initializer, nation);
+      }
+      visited.push(initializer);
     } else {
+      if (visited.includes(nation)) {
+        alert('You have already used ' + nation.toUpperCase() + ' in a move. Please remove that order before continuing.');
+        return;
+      }
       $('#' + nation).addClass('blue-highlight');
       attacker.push(nation);
     }
@@ -196,12 +241,7 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
  */
 function changeModifier(button) {
   return function() {
-    if (button) {
-      button = 0;
-    } else {
-      button = 1;
-    }
-    console.log(button);
+    $(button).addClass('blue-highlight');
   };
 }
 
@@ -217,24 +257,22 @@ function main() {
 
   console.log('Hello, World!');
 
+  /** Array that contains a move initializer */
   let attacker = [];
+  /** Array that contains previously used nations */
   let visited = [];
+  /** Array that contains a move modifier */
+  let modifier = [];
 
-  const supportButton = document.getElementById('support');
-  const convoyButton = document.getElementById('convoy');
-
-  // boolean buttons
-  let support = 0;
-  let convoy = 0;
+  let support = document.getElementById('support');
+  let convoy = document.getElementById('convoy');
 
   $(function () {
-    $(supportButton).on('click', changeModifier(support));
-    $(convoyButton).on('click', changeModifier(convoy));
-    if (support && convoy) {
-      console.log("that's actually not allowed here");
-    }
+    $(support).on('click', changeModifier(support));
+    $(convoy).on('click', changeModifier(convoy));
   });
 
+  
   /** 
   * Object used to store nation objects
   * (so an object of objects). Individually
@@ -279,7 +317,7 @@ function main() {
   // (this will be removed)
   for (let i = 0; i < nationlist.length; i++) {
     const nation = nationlist[i];
-    $('#' + nation).on('click', makeMove(nation, attacker, convoy, support));
+    $('#' + nation).on('click', makeMove(nation, attacker, support, convoy, modifier, visited));
   }
 
   // ADD THE ABILITY TO REMOVE ORDERS

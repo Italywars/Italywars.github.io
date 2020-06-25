@@ -35,9 +35,6 @@ body {
     background-color: #ffffff;
 }
 
-#orders {
-
-}
 
 .modifiers {
     font-weight: bold;
@@ -66,7 +63,15 @@ td:hover {
 }
 
 .green-highlight {
-    background-color: rgb(90, 231, 90);
+    background-color: rgb(149, 251, 149);
+}
+
+.red-highlight {
+    background-color: rgb(251, 138, 138);
+}
+
+.bold-text {
+    font-weight: bold;
 }
 
 #home {
