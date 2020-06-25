@@ -72,7 +72,7 @@ function makeMove(nation, attacker, convoy, support) {
       if (support) {
         console.log('hello');
       } else if (convoy) {
-        convoy(nation, attacker[0], )
+        convoy(nation, attacker[0], nation);
       } else {
         attack(attacker, nation);
       }
@@ -197,9 +197,9 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
 function changeModifier(button) {
   return function() {
     if (button) {
-      button = false;
+      button = 0;
     } else {
-      button = true;
+      button = 1;
     }
     console.log(button);
   };
@@ -224,8 +224,8 @@ function main() {
   const convoyButton = document.getElementById('convoy');
 
   // boolean buttons
-  let support = false;
-  let convoy = false;
+  let support = 0;
+  let convoy = 0;
 
   $(function () {
     $(supportButton).on('click', changeModifier(support));
