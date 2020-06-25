@@ -134,11 +134,21 @@ function populateColorsHash(colorsHash, nationlist) {
   });
 }
 
+
 // We need two draw functions so the text and borders
 // on the visible map. We can write the baseline drawing
 // function separately and nest it in a full drawing
 // function for the visible map
 
+function drawVisible(layer, nation) {
+  layer.font = 'small-caps 20px Times New Roman';
+  layer.fillStyle = 'black';
+  layer.strokeStyle = 'black';
+  layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
+  layer.fillText(nation.id, nation.x + 26, nation.y + 42, );
+  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  // layer.fill();
+}
 
 /** 
  * Given the proper layer, a nation object,
@@ -148,14 +158,7 @@ function populateColorsHash(colorsHash, nationlist) {
 function designNation(layer, nation, colorChoice) {
   layer.beginPath();
   layer.fillStyle = colorChoice;
-  layer.strokeStyle = 'black';
-  layer.font = 'small-caps 20px Times New Roman';
-  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
-  // layer.fill();
   layer.fillRect(nation.x, nation.y, nation.edge, nation.edge);
-  layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
-  layer.fillStyle = 'black';
-  layer.fillText(nation.id, nation.x + 26, nation.y + 42, );
 }
 
 /** 
@@ -165,10 +168,11 @@ function designNation(layer, nation, colorChoice) {
 function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
   return function (e) {
     // Document the click location and adjust for canvas size
-    const mousePos = {
+    const mousePos = {  
       x: e.clientX - canvas.offsetLeft,
       y: e.clientY - canvas.offsetTop
     };
+    console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
@@ -259,6 +263,7 @@ function main() {
     for (let [key, value] of Object.entries(colorsHash)) {
       designNation(hitCtx, value, key);
       designNation(ctx, value, value.color);
+      drawVisible(ctx, value)
     }
   });
 
