@@ -24,7 +24,7 @@ body {
     background:  #3a181a;
 }
 
-.game-board, td, .orders {
+.game-board, td, #orders, .modifiers {
     
     text-align: center;
     margin-left: auto;
@@ -33,8 +33,16 @@ body {
     border-collapse: collapse;
     padding: 15px;
     background-color: #ffffff;
+}
+
+#orders {
 
 }
+
+.modifiers {
+    font-weight: bold;
+}
+
 
 #map-canvas {
     padding: 0;
@@ -43,7 +51,6 @@ body {
     display: block;
     border: 1px solid black;
 }
-
 
 td {
     color: black;
@@ -78,4 +85,9 @@ td:hover {
 #home:hover {
     cursor: pointer;
     background: white;
+}
+
+#support:hover, #convoy:hover {
+    cursor: pointer;
+    background-color: blue;
 }

@@ -19,9 +19,9 @@ function writeOrder(nation1, nation2) {
  * Given attacker and target, performs an attack.
  */
 function attack(attacker, target) {
-  return function () {
-
-  }
+  $('#' + attacker[0]).removeClass('blue-highlight');
+  // Draw arrow from attacker to attackee
+  writeOrder(attacker.pop(), target);
 }
 
 
@@ -47,28 +47,40 @@ function convoy(fleet, passenger, target) {
   }
 }
 
+/**
+ * Given attacker and a nation, performs a
+ * hold order and removes the nation from
+ * attacker.
+ */
+function hold(attacker, nation) {
+  $('#' + nation).removeClass('blue-highlight');
+  $('#' + nation).addClass('green-highlight');
+  writeOrder(nation, nation);
+  attacker.pop();
+}
 
 /** 
  * Given a nation, performs the desired
  * moves based on contextual information.
  */
-function makeMove(nation, attacker) {
-    return function () {
-        if (attacker.includes(nation)) {
-            $('#' + nation).removeClass('blue-highlight'); // Alex here! I added some functions above
-            $('#' + nation).addClass('green-highlight');   // Do you think you could implement those into the
-            writeOrder(nation, nation);                    // makeMove function? It would make drawing much easier
-            attacker.pop();
-        }
-        else if (attacker.length === 1) {
-            $('#' + attacker[0]).removeClass('blue-highlight');
-            // Draw arrow from attacker to attackee
-            writeOrder(attacker.pop(), nation);
-        } else {
-            $('#' + nation).addClass('blue-highlight');
-            attacker.push(nation);
-        }
-    };
+function makeMove(nation, attacker, convoy, support) {
+  return function () {
+    if (attacker.includes(nation)) {
+      hold(attacker, nation);
+    }
+    else if (attacker.length === 1) {
+      if (support) {
+        console.log('hello');
+      } else if (convoy) {
+        convoy(nation, attacker[0], )
+      } else {
+        attack(attacker, nation);
+      }
+    } else {
+      $('#' + nation).addClass('blue-highlight');
+      attacker.push(nation);
+    }
+  };
 }
 
 
@@ -165,12 +177,28 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
       const nation = colorsHash[colorKey];
       console.log('click on nation: ' + nation.id);
       // alert('click on nation: ' + nation.id);
-      makeMove(nation.id, attacker);
-      writeOrder(nation.id, nation.id);
+      // makeMove(nation.id, attacker);
+      // writeOrder(nation.id, nation.id);
       // console.log(colorsHash[colorKey]);
       designNation(ctx, nation, nation.selectColor);
     }
   }
+}
+
+
+/** 
+ * Given a boolean button, switches
+ * that button to the opposite position.
+ */
+function changeModifier(button) {
+  return function() {
+    if (button) {
+      button = false;
+    } else {
+      button = true;
+    }
+    console.log(button);
+  };
 }
 
 // ------------------------------------------------------------------------------------
@@ -187,6 +215,21 @@ function main() {
 
   let attacker = [];
   let visited = [];
+
+  const supportButton = document.getElementById('support');
+  const convoyButton = document.getElementById('convoy');
+
+  // boolean buttons
+  let support = false;
+  let convoy = false;
+
+  $(function () {
+    $(supportButton).on('click', changeModifier(support));
+    $(convoyButton).on('click', changeModifier(convoy));
+    if (support && convoy) {
+      console.log("that's actually not allowed here");
+    }
+  });
 
   /** 
   * Object used to store nation objects
@@ -231,7 +274,7 @@ function main() {
   // (this will be removed)
   for (let i = 0; i < nationlist.length; i++) {
     const nation = nationlist[i];
-    $('#' + nation).on('click', makeMove(nation, attacker));
+    $('#' + nation).on('click', makeMove(nation, attacker, convoy, support));
   }
 
   // ADD THE ABILITY TO REMOVE ORDERS
