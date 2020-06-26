@@ -13,36 +13,41 @@
  * the orders table.
  */
 function writeOrder(...nation) {
+  let counter = nation[0];
   let table = document.getElementById('orders');
   let newRow = table.insertRow(-1);
+  newRow.setAttribute("id", counter);
+  newRow.setAttribute("class", 'orders');
   let newCell = newRow.insertCell(0);
   let newOrder = '';
-  if (nation.length === 1) {
-    newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' H');
-  } else if (nation.length === 2) {
-    newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + '––' + nation[1].toUpperCase());
-  } else if (nation.length === 4) {
-    if (nation[3] === 'support') {
-      if (nation[1] === nation[2]) {
-        newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' S A ' + nation[1].toUpperCase());
+  if (nation.length === 2) {
+    newOrder = document.createTextNode('A ' + nation[1].toUpperCase() + ' H');
+  } else if (nation.length === 3) {
+    newOrder = document.createTextNode('A ' + nation[1].toUpperCase() + '––' + nation[2].toUpperCase());
+  } else if (nation.length === 5) {
+    if (nation[4] === 'support') {
+      if (nation[2] === nation[3]) {
+        newOrder = document.createTextNode('A ' + nation[1].toUpperCase() + ' S A ' + nation[2].toUpperCase());
       } else {
-        newOrder = document.createTextNode('A ' + nation[0].toUpperCase() + ' S A ' + nation[1].toUpperCase() + '––' + nation[2].toUpperCase());
+        newOrder = document.createTextNode('A ' + nation[1].toUpperCase() + ' S A ' + nation[2].toUpperCase() + '––' + nation[3].toUpperCase());
       }
-    } else if (nation[3] === 'convoy') {
-      newOrder = document.createTextNode('F ' + nation[0].toUpperCase() + ' C A ' + nation[1].toUpperCase() + '––' + nation[2].toUpperCase());
+    } else if (nation[4] === 'convoy') {
+      newOrder = document.createTextNode('F ' + nation[1].toUpperCase() + ' C A ' + nation[2].toUpperCase() + '––' + nation[3].toUpperCase());
     }
   }
   newCell.appendChild(newOrder);
+
+  console.log(JSON.stringify(document.getElementsByClassName('orders')));
 }
 
 /**
  * Given attacker and target, performs an attack.
  */
-function attackOrder(attacker, target) {
+function attackOrder(attacker, target, counter) {
   console.log('ATTACK')
   $('#' + attacker).removeClass('blue-highlight');
   // Draw arrow from attacker to attackee
-  writeOrder(attacker, target);
+  writeOrder(counter, attacker, target);
 }
 
 
@@ -51,12 +56,12 @@ function attackOrder(attacker, target) {
  * a support move. If target is specified, support can
  * be given for an attack or possibly a convoy.
  */
-function supportOrder(supporter, supportee, target) {
+function supportOrder(supporter, supportee, target, counter) {
   console.log('SUPPORT');
   $('#support').removeClass('blue-highlight');
   $('#' + supporter).removeClass('blue-highlight');
   $('#' + supportee).removeClass('green-highlight');
-  writeOrder(supporter, supportee, target, 'support');
+  writeOrder(counter, supporter, supportee, target, 'support');
 }
 
 
@@ -64,12 +69,12 @@ function supportOrder(supporter, supportee, target) {
  * Given a fleet, a passenger, and a target, performs
  * a convoy of the passenger to the target.
  */
-function convoyOrder(fleet, passenger, target) {
+function convoyOrder(fleet, passenger, target, counter) {
   console.log('CONVOY');
   $('#support').removeClass('blue-highlight');
   $('#' + fleet).removeClass('blue-highlight');
   $('#' + passenger).removeClass('green-highlight');
-  writeOrder(fleet, passenger, target, 'convoy');
+  writeOrder(counter, fleet, passenger, target, 'convoy');
 }
 
 /**
@@ -77,19 +82,19 @@ function convoyOrder(fleet, passenger, target) {
  * hold order and removes the nation from
  * attacker.
  */
-function holdOrder(nation) {
+function holdOrder(nation, counter) {
   console.log('HOLD');
   let button = '#' + nation;
   $(button).removeClass('blue-highlight');
   $(button).addClass('bold-text');
-  writeOrder(nation);
+  writeOrder(counter, nation);
 }
 
 /** 
  * Given a nation, performs the desired
  * moves based on contextual information.
  */
-function makeMove(nation, attacker, support, convoy, modifier, visited) {
+function makeMove(nation, attacker, support, convoy, modifier, visited, counter) {
   return function () {
     if (support.classList.contains('blue-highlight') && convoy.classList.contains('blue-highlight')) {
       alert('Support and convoy may not be selected simultaneously. Please deselect both and try again.');
@@ -105,16 +110,16 @@ function makeMove(nation, attacker, support, convoy, modifier, visited) {
       let initializer = attacker.pop();
       if (initializer === nation) {
         // HOLD ORDER
-        holdOrder(nation);
+        holdOrder(nation, counter);
       } else if (support.classList.contains('blue-highlight')) {
         // SUPPORT ORDER
-        supportOrder(initializer, modifier.pop(), nation);
+        supportOrder(initializer, modifier.pop(), nation, counter);
       } else if (convoy.classList.contains('blue-highlight')) {
         // CONVOY ORDER
-        convoyOrder(initializer, modifier.pop(), nation);
+        convoyOrder(initializer, modifier.pop(), nation, counter);
       } else {
         // ATTACK ORDER
-        attackOrder(initializer, nation);
+        attackOrder(initializer, nation, counter);
       }
       visited.push(initializer);
     } else {
@@ -126,17 +131,6 @@ function makeMove(nation, attacker, support, convoy, modifier, visited) {
       attacker.push(nation);
     }
   };
-}
-
-
-/** 
- * Given an order row id, removes that row.
- * THIS FUNCTION NEEDS WORK
-*/
-function removeOrder(orderRow) {
-    return function () {
-        document.getElementById(orderRow).remove();
-    }
 }
 
 
@@ -264,6 +258,8 @@ function main() {
   /** Array that contains a move modifier */
   let modifier = [];
 
+  let rowCounter = 0;
+
   let support = document.getElementById('support');
   let convoy = document.getElementById('convoy');
 
@@ -317,15 +313,27 @@ function main() {
   // (this will be removed)
   for (let i = 0; i < nationlist.length; i++) {
     const nation = nationlist[i];
-    $('#' + nation).on('click', makeMove(nation, attacker, support, convoy, modifier, visited));
+    $('#' + nation).on('click', makeMove(nation, attacker, support, convoy, modifier, visited, rowCounter));
   }
 
   // ADD THE ABILITY TO REMOVE ORDERS
-  for (let i = 0; i < 5; i++) {
-    $('orders').on('click', removeOrder(this));
-    // console.log(this);
+
+  let ordersTable = document.getElementsByClassName('orders');
+  let keys = Object.keys(ordersTable);
+  for (let i = 0; i < keys.length; i++) {
+    $('#' + keys[i]).on('click', function() {
+      console.log('REMOVE');
+      $(keys[i]).remove();
+    })
   }
-}
+
+    // $('.orders').on('click', function () {
+    //   console.log('REMOVE');
+    //   let current = $(this).attr('id');
+    //   console.log(current);
+    //   $(current).remove();
+    // });
+  }
 
 
 main();
