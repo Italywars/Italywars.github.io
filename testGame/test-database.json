@@ -1,0 +1,7 @@
+{
+    "name": "Simon",
+    "gender": "Male",
+    "age": 19,
+    "hasGirlfriend": true,
+    "friends": ["Eva", "Alexander"]
+}

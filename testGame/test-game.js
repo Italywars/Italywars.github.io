@@ -350,6 +350,28 @@ function main() {
 
   // –––––––––––––––––––––––––––––––––––––––––––––––
 
+  // get info from file
+
+  // let database = JSON.parse('test-database.json');
+
+  fetch('./test-database.json')
+    .then(function(resp) {
+      return resp.json();
+    })
+    .then(function(data) {
+      console.log(data);
+    });
+
+
+  // $.ajax({
+  //   type: 'GET',
+  //   url: 'test-database.json',
+  //   success: function(data) {
+  //     console.log('success', data);
+  //   }
+  // });
+
+
   }
 
 
