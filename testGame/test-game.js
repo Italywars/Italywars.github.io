@@ -6,6 +6,42 @@
  * 
  */
 
+// When we have to do moves regarding attacks etc.,
+// can only allow attacks on neighboring states
+
+// this can be monitored by having a list of all
+// of the neighboring states contained inside 
+// the nations object
+
+
+/** 
+ * Given the proper layer, a nation object,
+ * and the appropriate color to use, draws the
+ * desired nation.
+ */
+function designNation(layer, nation, colorChoice) {
+  layer.beginPath();
+  layer.fillStyle = colorChoice;
+  layer.fillRect(nation.x, nation.y, nation.edge, nation.edge);
+}
+
+
+/** 
+ * Gvien the proper layer, and a nation object,
+ * draws the desired nation visibly.
+ */
+function drawVisible(layer, nation) {
+  // On redraw after nation select, doesn't draw original color which needs
+  // to be fixed
+  layer.font = 'small-caps 20px Times New Roman';
+  layer.fillStyle = 'black';
+  layer.strokeStyle = 'black';
+  layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
+  layer.fillText(nation.id, nation.x + 26, nation.y + 42);
+  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
+  // layer.fill();
+}
+
 
 /** 
  * Given a variable number of nations, writes 
@@ -16,8 +52,8 @@ function writeOrder(...nation) {
   let counter = nation[0];
   let table = document.getElementById('orders');
   let newRow = table.insertRow(-1);
-  newRow.setAttribute("id", counter);
-  newRow.setAttribute("class", 'orders');
+  // newRow.setAttribute("id", counter);
+  // newRow.setAttribute("class", 'orders');
   let newCell = newRow.insertCell(0);
   let newOrder = '';
   if (nation.length === 2) {
@@ -36,18 +72,17 @@ function writeOrder(...nation) {
     }
   }
   newCell.appendChild(newOrder);
-
-  console.log(JSON.stringify(document.getElementsByClassName('orders')));
 }
+
 
 /**
  * Given attacker and target, performs an attack.
  */
-function attackOrder(attacker, target, counter) {
+function attackOrder(attacker, target, counter, layer) {
   console.log('ATTACK')
-  $('#' + attacker).removeClass('blue-highlight');
   // Draw arrow from attacker to attackee
-  writeOrder(counter, attacker, target);
+  drawVisible(layer, attacker);
+  writeOrder(counter, attacker.id, target.id);
 }
 
 
@@ -56,12 +91,11 @@ function attackOrder(attacker, target, counter) {
  * a support move. If target is specified, support can
  * be given for an attack or possibly a convoy.
  */
-function supportOrder(supporter, supportee, target, counter) {
+function supportOrder(supporter, supportee, target, counter, layer) {
   console.log('SUPPORT');
   $('#support').removeClass('blue-highlight');
-  $('#' + supporter).removeClass('blue-highlight');
-  $('#' + supportee).removeClass('green-highlight');
-  writeOrder(counter, supporter, supportee, target, 'support');
+  drawVisible(layer, supporter);
+  writeOrder(counter, supporter.id, supportee.id, target.id, 'support');
 }
 
 
@@ -69,68 +103,70 @@ function supportOrder(supporter, supportee, target, counter) {
  * Given a fleet, a passenger, and a target, performs
  * a convoy of the passenger to the target.
  */
-function convoyOrder(fleet, passenger, target, counter) {
+function convoyOrder(fleet, passenger, target, counter, layer) {
   console.log('CONVOY');
-  $('#support').removeClass('blue-highlight');
-  $('#' + fleet).removeClass('blue-highlight');
-  $('#' + passenger).removeClass('green-highlight');
-  writeOrder(counter, fleet, passenger, target, 'convoy');
+  $('#convoy').removeClass('blue-highlight');
+  drawVisible(layer, fleet);
+  writeOrder(counter, fleet.id, passenger.id, target.id, 'convoy');
 }
+
 
 /**
  * Given attacker and a nation, performs a
  * hold order and removes the nation from
  * attacker.
  */
-function holdOrder(nation, counter) {
+function holdOrder(nation, counter, layer) {
   console.log('HOLD');
-  let button = '#' + nation;
-  $(button).removeClass('blue-highlight');
-  $(button).addClass('bold-text');
-  writeOrder(counter, nation);
+  drawVisible(layer, nation);
+  writeOrder(counter, nation.id);
 }
+
 
 /** 
  * Given a nation, performs the desired
  * moves based on contextual information.
  */
-function makeMove(nation, attacker, support, convoy, modifier, visited, counter) {
-  return function () {
-    if (support.classList.contains('blue-highlight') && convoy.classList.contains('blue-highlight')) {
-      alert('Support and convoy may not be selected simultaneously. Please deselect both and try again.');
+function move(nation, attacker, support, convoy, modifier, visited, counter, layer) {
+  if (support.classList.contains('blue-highlight') && convoy.classList.contains('blue-highlight')) {
+    alert('Support and convoy may not be selected simultaneously. Please try again.');
+    $(support).removeClass('blue-highlight');
+    $(convoy).removeClass('blue-highlight');
+    return;
+  }
+  if (modifier.length === 0) {
+    if (support.classList.contains('blue-highlight') || convoy.classList.contains('blue-highlight')) {
+      // Maybe add some similar functionality with color filling (as next line)
+      // $('#' + nation.id).addClass('green-highlight');
+      modifier.push(nation);
+      return;
     }
-    if (modifier.length === 0) {
-      if (support.classList.contains('blue-highlight') || convoy.classList.contains('blue-highlight')) {
-        $('#' + nation).addClass('green-highlight');
-        modifier.push(nation);
-        return;
-      }
-    }
-    if (attacker.length === 1) {
-      let initializer = attacker.pop();
-      if (initializer === nation) {
-        // HOLD ORDER
-        holdOrder(nation, counter);
-      } else if (support.classList.contains('blue-highlight')) {
-        // SUPPORT ORDER
-        supportOrder(initializer, modifier.pop(), nation, counter);
-      } else if (convoy.classList.contains('blue-highlight')) {
-        // CONVOY ORDER
-        convoyOrder(initializer, modifier.pop(), nation, counter);
-      } else {
-        // ATTACK ORDER
-        attackOrder(initializer, nation, counter);
-      }
-      visited.push(initializer);
+  }
+  if (attacker.length === 1) {
+    let initializer = attacker.pop();
+    if (initializer.id === nation.id) {
+      // HOLD ORDER
+      holdOrder(nation, counter, layer);
+    } else if (support.classList.contains('blue-highlight')) {
+      // SUPPORT ORDER
+      supportOrder(initializer, modifier.pop(), nation, counter, layer);
+    } else if (convoy.classList.contains('blue-highlight')) {
+      // CONVOY ORDER
+      convoyOrder(initializer, modifier.pop(), nation, counter, layer);
     } else {
-      if (visited.includes(nation)) {
-        alert('You have already used ' + nation.toUpperCase() + ' in a move. Please remove that order before continuing.');
-        return;
-      }
-      $('#' + nation).addClass('blue-highlight');
-      attacker.push(nation);
+      // ATTACK ORDER
+      attackOrder(initializer, nation, counter, layer);
     }
-  };
+    visited[initializer.id] = initializer;
+  } else {
+    // Just commented out for coloring purposes. Needs to be uncommented for final product
+    if (Object.keys(visited).includes(nation.id)) {
+      alert('You have already used ' + nation.id.toUpperCase() + ' in a move. Please remove that order before continuing.');
+      return;
+    }
+    designNation(layer, nation, nation.selectColor);
+    attacker.push(nation);
+  }
 }
 
 
@@ -179,32 +215,13 @@ function populateColorsHash(colorsHash, nationlist) {
 // function separately and nest it in a full drawing
 // function for the visible map
 
-function drawVisible(layer, nation) {
-  layer.font = 'small-caps 20px Times New Roman';
-  layer.fillStyle = 'black';
-  layer.strokeStyle = 'black';
-  layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
-  layer.fillText(nation.id, nation.x + 26, nation.y + 42, );
-  // layer.arc(nation.x, nation.y, nation.radius, 0, 2 * Math.PI, false);
-  // layer.fill();
-}
 
-/** 
- * Given the proper layer, a nation object,
- * and the appropriate color to use, draws the
- * desired nation.
- */
-function designNation(layer, nation, colorChoice) {
-  layer.beginPath();
-  layer.fillStyle = colorChoice;
-  layer.fillRect(nation.x, nation.y, nation.edge, nation.edge);
-}
 
 /** 
  * On a click, will alert the screen
  * with whichever nation was clicked.
  */
-function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
+function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash, support, convoy, modifier, visited, counter) {
   return function (e) {
     // Document the click location and adjust for canvas size
     const mousePos = {  
@@ -215,23 +232,19 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash) {
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
-    // If there is a match, log alert
+    // If there is a match, make a move
     if (Object.keys(colorsHash).includes(colorKey)) {
       const nation = colorsHash[colorKey];
       console.log('click on nation: ' + nation.id);
-      // alert('click on nation: ' + nation.id);
-      // makeMove(nation.id, attacker);
-      // writeOrder(nation.id, nation.id);
-      // console.log(colorsHash[colorKey]);
-      designNation(ctx, nation, nation.selectColor);
+      move(nation, attacker, support, convoy, modifier, visited, counter, ctx);
     }
   }
 }
 
 
 /** 
- * Given a boolean button, switches
- * that button to the opposite position.
+ * Given a support or convoy button, switches
+ * that button  position.
  */
 function changeModifier(button) {
   return function() {
@@ -239,7 +252,9 @@ function changeModifier(button) {
   };
 }
 
+
 // ------------------------------------------------------------------------------------
+
 
 /** 
  * This is the main function. Every other function
@@ -253,8 +268,12 @@ function main() {
 
   /** Array that contains a move initializer */
   let attacker = [];
-  /** Array that contains previously used nations */
-  let visited = [];
+  /** 
+   * Object that contains previously used nations.
+   * Nation id's are keys and nation objects are
+   * values. 
+  */
+  let visited = {};
   /** Array that contains a move modifier */
   let modifier = [];
 
@@ -267,7 +286,6 @@ function main() {
     $(support).on('click', changeModifier(support));
     $(convoy).on('click', changeModifier(convoy));
   });
-
   
   /** 
   * Object used to store nation objects
@@ -302,22 +320,17 @@ function main() {
   });
 
   // Allow for moves on the map-canvas
-  $(canvas).on('click', prepareMove(attacker, canvas, ctx, hitCtx, colorsHash));
+  $(canvas).on('click', prepareMove(attacker, canvas, ctx, hitCtx, colorsHash, support, convoy, modifier, visited, rowCounter));
 
   // Allow for clicking home
   $('#home').on('click', function () {
     location.href = '../index.html';
   });
 
-  // Allow for moves on the map-table locations
-  // (this will be removed)
-  for (let i = 0; i < nationlist.length; i++) {
-    const nation = nationlist[i];
-    $('#' + nation).on('click', makeMove(nation, attacker, support, convoy, modifier, visited, rowCounter));
-  }
+
+  // –––––––––– UNDER CONSTRUCTION –––––––––––––––––
 
   // ADD THE ABILITY TO REMOVE ORDERS
-
   let ordersTable = document.getElementsByClassName('orders');
   let keys = Object.keys(ordersTable);
   for (let i = 0; i < keys.length; i++) {
@@ -333,6 +346,10 @@ function main() {
     //   console.log(current);
     //   $(current).remove();
     // });
+
+
+  // –––––––––––––––––––––––––––––––––––––––––––––––
+
   }
 
 
