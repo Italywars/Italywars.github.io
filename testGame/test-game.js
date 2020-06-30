@@ -6,6 +6,16 @@
  * 
  */
 
+
+// ADD A BANNER TO TOP SAYING MOVE JUST SELECTED (BECAUSE CAN'T IMMEIDATELY SEE ORDERS TABLE)
+// ADD ORDER REMOVAL
+// ADD JSON COMPATIBILITY
+
+
+// ADD SUPPORT/CONVOY deselection (use toggle class?)
+
+
+
 // When we have to do moves regarding attacks etc.,
 // can only allow attacks on neighboring states
 
@@ -248,7 +258,7 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash, support, convoy,
  */
 function changeModifier(button) {
   return function() {
-    $(button).addClass('blue-highlight');
+    $(button).toggleClass('blue-highlight');
   };
 }
 
@@ -350,17 +360,19 @@ function main() {
 
   // –––––––––––––––––––––––––––––––––––––––––––––––
 
+  // ADD THE ABILITY TO READ FROM AND WRITE TO A JSON FILE
+
   // get info from file
 
   // let database = JSON.parse('test-database.json');
 
-  fetch('./test-database.json')
-    .then(function(resp) {
-      return resp.json();
-    })
-    .then(function(data) {
-      console.log(data);
-    });
+  // fetch('https://github.com/Italywars/Italywars.github.io/blob/master/testGame/test-database.json')
+  //   .then(function(resp) {
+  //     return resp.json();
+  //   })
+  //   .then(function(data) {
+  //     console.log(data);
+  //   });
 
 
   // $.ajax({
@@ -371,6 +383,7 @@ function main() {
   //   }
   // });
 
+  // –––––––––––––––––––––––––––––––––––––––––––––––
 
   }
 
