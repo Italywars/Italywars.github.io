@@ -63,6 +63,7 @@ function drawArrow(startX, startY, endX, endY, layer){
 // ADD JSON COMPATIBILITY
 // ADD ARROW DRAWING
 // ADD REALISTIC MAP
+// FIX SWIPING BUG (swipe down, same nation selected)
 
 // Fix draw visible –– seems to be making blocks smaller on redraw
 
@@ -114,8 +115,8 @@ function writeOrder(...nation) {
   let table = document.getElementById('orders');
   let newRow = table.insertRow(-1);
   // the next rows for order removal
-  // let counter = nation[0];
-  // newRow.setAttribute("id", counter);
+  let counter = nation[0];
+  newRow.setAttribute("id", counter);
   // newRow.setAttribute("class", 'orders');
   let newCell = newRow.insertCell(0);
   let newOrder = '';
@@ -154,8 +155,14 @@ function attackOrder(attacker, target, counter, layer) {
   let centerXTarget = target.x + target.edge/2
   let centerYTarget = target.y + target.edge/2
   // why is a black box being drawn around attacking nations?
-  drawArrow(centerXAttacker, centerYAttacker, centerXTarget, centerYTarget, layer);
   drawVisible(layer, attacker);
+  console.log(centerXAttacker);
+  console.log(centerXTarget);
+  if (centerXAttacker - centerXTarget > 80 || centerXAttacker - centerXTarget < 80) {
+    alert('These nations are not adjacent. Please try again.')
+    return;
+  }
+  drawArrow(centerXAttacker, centerYAttacker, centerXTarget, centerYTarget, layer);
   writeOrder(counter, attacker.id, target.id);
 }
 
@@ -417,20 +424,27 @@ function main() {
   // –––––––––– UNDER CONSTRUCTION –––––––––––––––––
 
   // ADD THE ABILITY TO REMOVE ORDERS
-  let ordersTable = document.getElementsByClassName('orders');
-  let keys = Object.keys(ordersTable);
-  for (let i = 0; i < keys.length; i++) {
-    $('#' + keys[i]).on('click', function() {
-      console.log('REMOVE');
-      $(keys[i]).remove();
-    })
-  }
+  // let ordersTable = document.getElementsByClassName('orders');
+  // let keys = Object.keys(ordersTable);
+  // for (let i = 0; i < keys.length; i++) {
+  //   $('#' + keys[i]).on('click', function() {
+  //     console.log('REMOVE');
+  //     $(keys[i]).remove();
+  //   })
+  // }
 
     // $('.orders').on('click', function () {
     //   console.log('REMOVE');
     //   let current = $(this).attr('id');
     //   console.log(current);
     //   $(current).remove();
+    // });
+
+    // $(function () {
+    //   $('.orders-table').on('click', function () {
+    //     let current = $(this).closest('tr').attr('id');
+    //     console.log(JSON.stringify(current));
+    //   });
     // });
 
 
