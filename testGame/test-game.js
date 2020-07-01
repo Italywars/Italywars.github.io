@@ -3,7 +3,57 @@
  * a sample game, as will
  * be used in the future
  * for games.
+ * 
+ * @editors Simon Camacho, Alexander DelFranco, Eva Batelaan
  */
+
+
+// ––––––––– FROM THE INTERNET –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+/** 
+ * Given a start and end-point, draws an arrow
+ * TAKEN FROM STACK OVERFLOW
+ * EDITED SLIGHTLY BY @editor Simon Camacho
+ * https://stackoverflow.com/questions/808826/draw-arrow-on-canvas-tag
+ */
+function drawArrow(startX, startY, endX, endY, layer){
+  // variables to be used when creating the arrow
+  let headlen = 10;
+
+  let angle = Math.atan2(endY - startY, endX - startX);
+
+  //starting path of the arrow from the start square to the end square and drawing the stroke
+  layer.beginPath();
+  layer.moveTo(startX, startY);
+  layer.lineTo(endX, endY);
+  layer.strokeStyle = 'black';
+  layer.lineWidth = 3;
+  layer.stroke();
+
+  //starting a new path from the head of the arrow to one of the sides of the point
+  layer.beginPath();
+  layer.moveTo(endX, endY);
+  layer.lineTo(endX - headlen * Math.cos(angle-Math.PI/7), endY - headlen * Math.sin(angle-Math.PI/7));
+
+  //path from the side point of the arrow, to the other side point
+  layer.lineTo(endX-headlen*Math.cos(angle+Math.PI/7),endY-headlen*Math.sin(angle+Math.PI/7));
+
+  //path from the side point back to the tip of the arrow, and then again to the opposite side point
+  layer.lineTo(endX, endY);
+  layer.lineTo(endX-headlen*Math.cos(angle-Math.PI/7),endY-headlen*Math.sin(angle-Math.PI/7));
+
+  //draws the paths created above
+  layer.strokeStyle = 'black';
+  layer.lineWidth = 4;
+  layer.stroke();
+  layer.fillStyle = 'black';
+  layer.fill();
+}
+
+
+
+
 
 
 // –––––––––– TO DO ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -61,9 +111,10 @@ function drawVisible(layer, nation) {
  * the orders table.
  */
 function writeOrder(...nation) {
-  let counter = nation[0];
   let table = document.getElementById('orders');
   let newRow = table.insertRow(-1);
+  // the next rows for order removal
+  // let counter = nation[0];
   // newRow.setAttribute("id", counter);
   // newRow.setAttribute("class", 'orders');
   let newCell = newRow.insertCell(0);
@@ -84,9 +135,9 @@ function writeOrder(...nation) {
     }
   }
   // THIS NEEDS WORK –– DEMONSTRATING ORDERS AS NOTIFICATIONS
-  if (Notification.permission === 'granted') {
-    var orderNotification = new Notification(newOrder);
-  }
+  // if (Notification.permission === 'granted') {
+  //   var orderNotification = new Notification(newOrder);
+  // }
   newCell.appendChild(newOrder);
 
 }
@@ -98,6 +149,12 @@ function writeOrder(...nation) {
 function attackOrder(attacker, target, counter, layer) {
   console.log('ATTACK')
   // Draw arrow from attacker to attackee
+  let centerXAttacker = attacker.x + attacker.edge/2;
+  let centerYAttacker = attacker.y + attacker.edge/2
+  let centerXTarget = target.x + target.edge/2
+  let centerYTarget = target.y + target.edge/2
+  // why is a black box being drawn around attacking nations?
+  drawArrow(centerXAttacker, centerYAttacker, centerXTarget, centerYTarget, layer);
   drawVisible(layer, attacker);
   writeOrder(counter, attacker.id, target.id);
 }
