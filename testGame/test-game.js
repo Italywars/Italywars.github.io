@@ -2,27 +2,29 @@
  * This file tests building
  * a sample game, as will
  * be used in the future
- * for games. 
- * 
+ * for games.
  */
 
+
+// –––––––––– TO DO ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 // ADD A BANNER TO TOP SAYING MOVE JUST SELECTED (BECAUSE CAN'T IMMEIDATELY SEE ORDERS TABLE)
 // ADD ORDER REMOVAL
 // ADD JSON COMPATIBILITY
+// ADD ARROW DRAWING
+// ADD REALISTIC MAP
 
+// Fix draw visible –– seems to be making blocks smaller on redraw
 
-// ADD SUPPORT/CONVOY deselection (use toggle class?)
+/** 
+ * When we have to do moves regarding attacks etc.,
+ * can only allow attacks on neighboring states
+ * this can be monitored by having a list of all
+ * of the neighboring states contained inside 
+ * the nations object 
+ */
 
-
-
-// When we have to do moves regarding attacks etc.,
-// can only allow attacks on neighboring states
-
-// this can be monitored by having a list of all
-// of the neighboring states contained inside 
-// the nations object
-
+// –––––––––– PROGRAM ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 /** 
  * Given the proper layer, a nation object,
@@ -81,7 +83,12 @@ function writeOrder(...nation) {
       newOrder = document.createTextNode('F ' + nation[1].toUpperCase() + ' C A ' + nation[2].toUpperCase() + '––' + nation[3].toUpperCase());
     }
   }
+  // THIS NEEDS WORK –– DEMONSTRATING ORDERS AS NOTIFICATIONS
+  if (Notification.permission === 'granted') {
+    var orderNotification = new Notification(newOrder);
+  }
   newCell.appendChild(newOrder);
+
 }
 
 
@@ -105,6 +112,7 @@ function supportOrder(supporter, supportee, target, counter, layer) {
   console.log('SUPPORT');
   $('#support').removeClass('blue-highlight');
   drawVisible(layer, supporter);
+  drawVisible(layer, supportee);
   writeOrder(counter, supporter.id, supportee.id, target.id, 'support');
 }
 
@@ -117,6 +125,7 @@ function convoyOrder(fleet, passenger, target, counter, layer) {
   console.log('CONVOY');
   $('#convoy').removeClass('blue-highlight');
   drawVisible(layer, fleet);
+  drawVisible(layer, passenger);
   writeOrder(counter, fleet.id, passenger.id, target.id, 'convoy');
 }
 
@@ -148,6 +157,7 @@ function move(nation, attacker, support, convoy, modifier, visited, counter, lay
     if (support.classList.contains('blue-highlight') || convoy.classList.contains('blue-highlight')) {
       // Maybe add some similar functionality with color filling (as next line)
       // $('#' + nation.id).addClass('green-highlight');
+      designNation(layer, nation, 'rgb(149, 251, 149)');
       modifier.push(nation);
       return;
     }
@@ -199,20 +209,22 @@ function getRandomColor() {
  * location and color of that nation.
  */
 function populateColorsHash(colorsHash, nationlist) {
-  let counter = 0;
+  let xCounter = 0;
+  let yCounter = 1;
   nationlist.forEach(nation => {
     while(true) {
       const colorKey = getRandomColor();
       if (!Object.keys(colorsHash).includes(colorKey)) {
         colorsHash[colorKey] = {
           id: nation, 
-          x: 80 * (counter + 1), 
-          y: 60, 
+          x: 80 * (xCounter + 1), 
+          y: yCounter * 80, 
           edge: 80, 
           color: 'rgb(173,216,230)',
           selectColor: 'rgb(120,180,230)'
         };
-        counter++;
+       // if (xCounter === 9) yCounter++;
+        xCounter++;
         return;
       }
     }
@@ -272,9 +284,10 @@ function changeModifier(button) {
  */
 function main() {
 
-  const nationlist = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];
+  // maybe change to object?
+  const NATIONS = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];//, 'swi',  'tur', 'como'];
 
-  console.log('Hello, World!');
+  console.log('Hello, World!');  
 
   /** Array that contains a move initializer */
   let attacker = [];
@@ -304,7 +317,7 @@ function main() {
   * Nation objects are values.
   */
   let colorsHash = {};
-  populateColorsHash(colorsHash, nationlist);
+  populateColorsHash(colorsHash, NATIONS);
   // console.log(JSON.stringify(colorsHash));
 
   // Create canvas element for visible map
@@ -335,6 +348,12 @@ function main() {
   // Allow for clicking home
   $('#home').on('click', function () {
     location.href = '../index.html';
+  });
+
+  $('#notifications').on('click', function () {
+    Notification.requestPermission().then(function(result) {
+      console.log('permission ' + result);
+    });
   });
 
 

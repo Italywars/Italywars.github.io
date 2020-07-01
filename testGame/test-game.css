@@ -87,7 +87,20 @@ td:hover {
     transition: all 0.3s ease;
 }
 
-#home:hover {
+#notifications {
+    border: box;
+    position: absolute;
+    color: #5a4953;
+    font-size: 15px;
+    left: 50px;
+    top: 10px;
+    padding: 2px 10px;
+    border: 3px solid black;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+#home:hover, #notifications:hover {
     cursor: pointer;
     background: white;
 }
