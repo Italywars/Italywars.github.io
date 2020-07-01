@@ -31,6 +31,10 @@ function drawArrow(startX, startY, endX, endY, layer){
   layer.lineWidth = 3;
   layer.stroke();
 
+  // incorporate next lines
+  // let linePathX = endX - (headlen * Math.cos(angle-Math.PI / 7));
+  // let linePathY = endY - (headlen * Math.sin(angle-Math.PI / 7));
+
   //starting a new path from the head of the arrow to one of the sides of the point
   layer.beginPath();
   layer.moveTo(endX, endY);
@@ -158,8 +162,9 @@ function attackOrder(attacker, target, counter, layer) {
   drawVisible(layer, attacker);
   console.log(centerXAttacker);
   console.log(centerXTarget);
-  if (centerXAttacker - centerXTarget > 80 || centerXAttacker - centerXTarget < 80) {
+  if (centerXAttacker - centerXTarget > 80 || centerXAttacker - centerXTarget < -80) {
     alert('These nations are not adjacent. Please try again.')
+    // IF THIS HAPPENS, HAVE TO REMOVE ORIGINAL NATION FROM VISITED
     return;
   }
   drawArrow(centerXAttacker, centerYAttacker, centerXTarget, centerYTarget, layer);
