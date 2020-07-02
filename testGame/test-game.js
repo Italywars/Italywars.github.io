@@ -162,11 +162,11 @@ function attackOrder(attacker, target, counter, layer) {
   drawVisible(layer, attacker);
   console.log(centerXAttacker);
   console.log(centerXTarget);
-  if (centerXAttacker - centerXTarget > 80 || centerXAttacker - centerXTarget < -80) {
-    alert('These nations are not adjacent. Please try again.')
-    // IF THIS HAPPENS, HAVE TO REMOVE ORIGINAL NATION FROM VISITED
-    return;
-  }
+  // if (centerXAttacker - centerXTarget > 80 || centerXAttacker - centerXTarget < -80) {
+  //   alert('These nations are not adjacent. Please try again.')
+  //   // IF THIS HAPPENS, HAVE TO REMOVE ORIGINAL NATION FROM VISITED
+  //   return;
+  // }
   drawArrow(centerXAttacker, centerYAttacker, centerXTarget, centerYTarget, layer);
   writeOrder(counter, attacker.id, target.id);
 }
