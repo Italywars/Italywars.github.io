@@ -279,7 +279,7 @@ function getRandomColor() {
  */
 function populateColorsHash(colorsHash, nationlist) {
   let xCounter = 0;
-  let yCounter = 1;
+  let yCounter = 0;
   nationlist.forEach(nation => {
     while(true) {
       const colorKey = getRandomColor();
@@ -287,13 +287,17 @@ function populateColorsHash(colorsHash, nationlist) {
         colorsHash[colorKey] = {
           id: nation, 
           x: 80 * (xCounter + 1), 
-          y: yCounter * 80, 
+          y: 80 * (yCounter + 1), 
           edge: 80, 
           color: 'rgb(173,216,230)',
           selectColor: 'rgb(120,180,230)'
         };
        // if (xCounter === 9) yCounter++;
         xCounter++;
+        if (xCounter%8 === 0) {
+          xCounter = 0;
+          yCounter++;
+        }
         return;
       }
     }
@@ -319,7 +323,6 @@ function prepareMove(attacker, canvas, ctx, hitCtx, colorsHash, support, convoy,
       x: e.clientX - canvas.offsetLeft,
       y: e.clientY - canvas.offsetTop
     };
-    console.log(mousePos);
     // Get pixel color and compare it to the list
     const pixel = hitCtx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
     const colorKey = `rgb(${pixel[0]},${pixel[1]},${pixel[2]})`;
@@ -354,7 +357,7 @@ function changeModifier(button) {
 function main() {
 
   // maybe change to object?
-  const NATIONS = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol'];//, 'swi',  'tur', 'como'];
+  const NATIONS = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol', 'swi',  'tur', 'como'];
 
   console.log('Hello, World!');  
 
