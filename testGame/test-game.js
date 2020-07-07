@@ -101,6 +101,7 @@ function drawVisible(layer, nation) {
   // On redraw after nation select, doesn't draw original color which needs
   // to be fixed
   layer.font = 'small-caps 20px Times New Roman';
+  layer.lineWidth = 1;
   layer.fillStyle = 'black';
   layer.strokeStyle = 'black';
   layer.strokeRect(nation.x, nation.y, nation.edge, nation.edge);
@@ -253,7 +254,7 @@ function move(nation, attacker, support, convoy, modifier, visited, counter, lay
       alert('You have already used ' + nation.id.toUpperCase() + ' in a move. Please remove that order before continuing.');
       return;
     }
-    designNation(layer, nation, nation.selectColor);
+    // designNation(layer, nation, nation.selectColor);
     attacker.push(nation);
   }
 }
@@ -357,7 +358,19 @@ function changeModifier(button) {
 function main() {
 
   // maybe change to object?
-  const NATIONS = ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol', 'swi',  'tur', 'como'];
+  const NATIONS = [
+    'avi', 'swi', 'tur', 'como', 'tyr', 'carin', 'aus', 'hun',
+    'mar', 'pro', 'sav', 'salz', 'mon', 'pav', 'mil', 'trent',
+    'gol', 'ls', 'gen', 'for', 'par', 'cre', 'ber', 'ver',
+    'mod', 'man', 'fer', 'pad', 'tre', 'fri', 'car', 'sla',
+    'pisa', 'luc', 'pis', 'flo', 'bol', 'ven', 'ist', 'cro',
+    'cor', 'pio', 'sie', 'are', 'urb', 'anc', 'ua', 'dal',
+    'wm', 'sar', 'ts', 'pat', 'per', 'rome', 'spo', 'bos',
+    'cap', 'nap', 'sal', 'aqu', 'bari', 'la', 'rag', 'her',
+    'tun', 'cm', 'pal', 'mes', 'gon', 'otr', 'dur', '',
+    'cm', 'is'
+  ]
+  // ['gen', 'luc', 'sal', 'mil', 'flo', 'rom', 'avi', 'mar', 'gol', 'swi',  'tur', 'como'];
 
   console.log('Hello, World!');  
 
@@ -381,6 +394,14 @@ function main() {
     $(support).on('click', changeModifier(support));
     $(convoy).on('click', changeModifier(convoy));
   });
+
+  $("#outer_canvas").mousemove(function(e) {
+    var relativePosition = {
+      left: e.pageX - $(document).scrollLeft() - $('#canvas').offset().left,
+      top : e.pageY - $(document).scrollTop() - $('#canvas').offset().top
+    };
+    $('#mousepos').html('<p>x: ' + relativePosition.left + ' y: ' + relativePosition.top + ' </p>');
+});
   
   /** 
   * Object used to store nation objects
